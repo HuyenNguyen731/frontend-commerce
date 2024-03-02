@@ -16,11 +16,11 @@ import { jwtDecode  } from "jwt-decode";
 
 const SignInPage = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch();
     const location = useLocation()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isShowPassword, setIsShowPassword] = useState(false)
-    const dispatch = useDispatch();
     const user  = useSelector((state) => state.user)
     const mutation = useMutationHooks(
         data => UserService.loginUser(data)
