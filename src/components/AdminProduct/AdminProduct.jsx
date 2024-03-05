@@ -10,10 +10,10 @@ import { useQuery } from '@tanstack/react-query';
 import DrawerComponent from '../DrawerComponent/DrawerComponent';
 import { useSelector } from 'react-redux';
 import ModalAddProduct from "../ModalAddProduct/ModalAddProduct";
-import ModalDelete from "../../pages/AdminPage/ModalDelete";
 import { getBase64 } from '../../utils';
 import * as ProductService from '../../services/ProductService';
 import * as message from '../../components/Message/Message';
+import ModalDelete from "../ModalDelete/ModalDelete";
 
 const initial = () => ({
     name: '',
@@ -118,12 +118,9 @@ const AdminProduct = () => {
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
-        // setSearchText(selectedKeys[0]);
-        // setSearchedColumn(dataIndex);
     };
     const handleReset = (clearFilters) => {
         clearFilters();
-        // setSearchText('');
     };
 
     const getColumnSearchProps = (dataIndex) => ({
@@ -349,7 +346,7 @@ const AdminProduct = () => {
             </div>
             <div style={{ marginTop: '20px' }}>
                 <TableComponent
-                    handleDelteMany={handleDeleteManyProducts}
+                    handleDeleteMany={handleDeleteManyProducts}
                     columns={columns}
                     isLoading={isLoadingProducts}
                     data={dataTable}
@@ -464,7 +461,8 @@ const AdminProduct = () => {
                 open={isModalOpenDelete}
                 onCancel={closeModalDelete}
                 onOk={handleDeleteProduct}
-                isLoading={isLoadingDeleted}
+                title="Xóa sản phẩm"
+                description="Bạn có chắc muốn xóa sản phẩm này không?"
             />
         </div>
     )
