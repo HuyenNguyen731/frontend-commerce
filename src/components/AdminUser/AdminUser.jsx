@@ -236,8 +236,8 @@ const AdminUser = () => {
                 open={isModalOpenDelete}
                 onCancel={closeModalDelete}
                 onOk={handleDeleteUser}
-                isLoading={isLoadingDeleted}
                 title="Xóa người dùng"
+                isLoading={isLoadingDeleted || isLoadingDeletedMany}
                 description="Bạn có chắc muốn xóa sản phẩm này không?"
             />
         </div>

@@ -1,8 +1,7 @@
+import React, { useState, useMemo } from 'react'
 import { Table, Button } from 'antd';
-import React, { useState } from 'react'
 import Loading from '../../components/LoadingComponent/Loading'
 import { Excel } from "antd-table-saveas-excel";
-import { useMemo } from 'react';
 
 const TableComponent = (props) => {
     const {
@@ -31,6 +30,7 @@ const TableComponent = (props) => {
     const handleDeleteAll = () => {
         handleDeleteMany(rowSelectedKeys)
     }
+
     const exportExcel = () => {
         const excel = new Excel();
         excel

@@ -458,10 +458,11 @@ const AdminProduct = () => {
                 queryProduct={queryProduct}
             />
             <ModalDelete
+                title="Xóa sản phẩm"
                 open={isModalOpenDelete}
                 onCancel={closeModalDelete}
                 onOk={handleDeleteProduct}
-                title="Xóa sản phẩm"
+                isLoading={isLoadingDeleted || isLoadingDeletedMany}
                 description="Bạn có chắc muốn xóa sản phẩm này không?"
             />
         </div>

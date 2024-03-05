@@ -14,10 +14,12 @@ import { useDispatch, useSelector } from "react-redux";
 import * as UserService from "../../services/UserService";
 import { resetUser } from "../../redux/slides/userSlide";
 import Loading from "../LoadingComponent/Loading";
+import { searchProduct } from "../../redux/slides/productSlide";
 
 const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
+    const [search,setSearch] = useState('')
     const [userName, setUserName] = useState('')
     const [userAvatar, setUserAvatar] = useState('')
     const [loading, setLoading] = useState(false)
@@ -70,6 +72,11 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
         </div>
     );
 
+    const onSearch = (e) => {
+        setSearch(e.target.value)
+        dispatch(searchProduct(e.target.value))
+    }
+
     return (
         <div style={{
             height: '100%',
@@ -90,6 +97,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                             textbutton="Tìm kiếm"
                             placeholder="input search text"
                             backgroundColorButton="#5a20c1"
+                            onChange={onSearch}
                         />
                     </Col>
                 )}
