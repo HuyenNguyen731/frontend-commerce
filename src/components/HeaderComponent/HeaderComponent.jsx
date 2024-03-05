@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Col, Popover} from "antd";
+import {Badge, Col, Popover} from "antd";
 import {
     WrapperContentPopup,
     WrapperHeader,
@@ -15,7 +15,7 @@ import * as UserService from "../../services/UserService";
 import { resetUser } from "../../redux/slides/userSlide";
 import Loading from "../LoadingComponent/Loading";
 
-const HeaderComponent = () => {
+const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const [userName, setUserName] = useState('')
@@ -63,7 +63,6 @@ const HeaderComponent = () => {
         <div>
             <WrapperContentPopup onClick={() => handleClickNavigate('profile')}>Thông tin người dùng</WrapperContentPopup>
             {user?.isAdmin && (
-
                 <WrapperContentPopup onClick={() => handleClickNavigate('admin')}>Quản lí hệ thống</WrapperContentPopup>
             )}
             <WrapperContentPopup onClick={() => handleClickNavigate(`my-order`)}>Đơn hàng của tôi</WrapperContentPopup>
@@ -79,20 +78,21 @@ const HeaderComponent = () => {
             background: '#9255FD',
             justifyContent: 'center'
         }}>
-            <WrapperHeader>
+            <WrapperHeader style={{ justifyContent: isHiddenSearch && isHiddenSearch ? 'space-between' : 'unset' }}>
                 <Col span={5}>
-                    <WrapperTextHeader to='/'>TOPTOTOES</WrapperTextHeader>
+                    <WrapperTextHeader to='/'>SHOP</WrapperTextHeader>
                 </Col>
-                <Col span={13}>
-                    <ButtonInputSearch
-                        size="large"
-                        bordered={false}
-                        textbutton="Tìm kiếm"
-                        placeholder="input search text"
-                        // onChange={onSearch}
-                        backgroundColorButton="#5a20c1"
-                    />
-                </Col>
+                {!isHiddenSearch && (
+                    <Col span={13}>
+                        <ButtonInputSearch
+                            size="large"
+                            bordered={false}
+                            textbutton="Tìm kiếm"
+                            placeholder="input search text"
+                            backgroundColorButton="#5a20c1"
+                        />
+                    </Col>
+                )}
                 <Col span={6} style={{ display: 'flex', gap: '54px', alignItems: 'center' }}>
                     <Loading isLoading={loading}>
                         <WrapperHeaderAccount>
@@ -123,10 +123,14 @@ const HeaderComponent = () => {
                             )}
                         </WrapperHeaderAccount>
                     </Loading>
-                    <div>
-                        <ShoppingCartOutlined style={{ fontSize: '30px', color: '#fff' }} />
-                        <WrapperTextHeaderSmall>Giỏ hàng</WrapperTextHeaderSmall>
-                    </div>
+                    {!isHiddenCart && (
+                        <div onClick={() => navigate('/order')} style={{cursor: 'pointer'}}>
+                            <Badge count={3} size="small">
+                                <ShoppingCartOutlined style={{ fontSize: '30px', color: '#fff' }} />
+                            </Badge>
+                            <WrapperTextHeaderSmall>Giỏ hàng</WrapperTextHeaderSmall>
+                        </div>
+                    )}
                 </Col>
             </WrapperHeader>
         </div>
