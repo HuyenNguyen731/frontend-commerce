@@ -11,7 +11,6 @@ import {
     WrapperStyleNameProduct,
     WrapperStyleTextSell
 } from "./style";
-import imageProduct from "../../assets/images/imageProduct.jpg"
 import imageProductSmall from "../../assets/images/imageProductSmall.jpg"
 import {MinusOutlined, PlusOutlined} from "@ant-design/icons";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
@@ -19,10 +18,16 @@ import {useQuery} from "@tanstack/react-query";
 import * as ProductService from "../../services/ProductService";
 import Loading from "../LoadingComponent/Loading";
 import {convertPrice} from "../../utils";
-import {useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import {addOrderProduct} from "../../redux/slides/orderSlide";
 
 const ProductDetailsComponent = ({idProduct}) => {
+    const navigate = useNavigate()
+    const location = useLocation()
+    const dispatch = useDispatch()
     const [numProduct, setNumProduct] = useState(1)
+    const [errorLimitOrder, setErrorLimitOrder] = useState(false)
     const user = useSelector((state) => state.user)
 
     const fetchGetDetailsProduct = async (context) => {
@@ -55,6 +60,39 @@ const ProductDetailsComponent = ({idProduct}) => {
         }
     }
 
+    const handleAddOrderProduct = () => {
+        if(!user?.id) {
+            navigate('/sign-in', {state: location?.pathname})
+        }else {
+            dispatch(addOrderProduct({
+                orderItem: {
+                    name: productDetails?.name,
+                    amount: numProduct,
+                    image: productDetails?.image,
+                    price: productDetails?.price,
+                    product: productDetails?._id,
+                    discount: productDetails?.discount,
+                    countInstock: productDetails?.countInStock
+                }
+            }))
+            // const orderRedux = order?.orderItems?.find((item) => item.product === productDetails?._id)
+            // if((orderRedux?.amount + numProduct) <= orderRedux?.countInstock || (!orderRedux && productDetails?.countInStock > 0)) {
+            //     dispatch(addOrderProduct({
+            //         orderItem: {
+            //             name: productDetails?.name,
+            //             amount: numProduct,
+            //             image: productDetails?.image,
+            //             price: productDetails?.price,
+            //             product: productDetails?._id,
+            //             discount: productDetails?.discount,
+            //             countInstock: productDetails?.countInStock
+            //         }
+            //     }))
+            // } else {
+            //     setErrorLimitOrder(true)
+            // }
+        }
+    }
 
     return (
         <Loading isLoading={isLoading}>
@@ -123,9 +161,11 @@ const ProductDetailsComponent = ({idProduct}) => {
                                     border: 'none',
                                     borderRadius: '4px'
                                 }}
+                                onClick={handleAddOrderProduct}
                                 textbutton={'Chọn mua'}
                                 styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }}
                             ></ButtonComponent>
+                            {errorLimitOrder && <div style={{color: 'red'}}>San pham het hang</div>}
                         </div>
                         <ButtonComponent
                             size={40}

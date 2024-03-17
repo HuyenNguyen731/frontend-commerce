@@ -19,12 +19,13 @@ import { searchProduct } from "../../redux/slides/productSlide";
 const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
-    const [search,setSearch] = useState('')
+    const [search, setSearch] = useState('')
     const [userName, setUserName] = useState('')
     const [userAvatar, setUserAvatar] = useState('')
     const [loading, setLoading] = useState(false)
     const [isOpenPopup, setIsOpenPopup] = useState(false)
     const user = useSelector((state) => state.user)
+    const order = useSelector((state) => state.order)
 
     const handleNavigateLogin = () => {
         navigate('/sign-in')
@@ -133,7 +134,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                     </Loading>
                     {!isHiddenCart && (
                         <div onClick={() => navigate('/order')} style={{cursor: 'pointer'}}>
-                            <Badge count={3} size="small">
+                            <Badge count={order?.orderItems?.length} size="small">
                                 <ShoppingCartOutlined style={{ fontSize: '30px', color: '#fff' }} />
                             </Badge>
                             <WrapperTextHeaderSmall>Giỏ hàng</WrapperTextHeaderSmall>

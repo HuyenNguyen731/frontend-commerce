@@ -10,14 +10,14 @@ import TypeProduct from "../../components/TypeProduct/TypeProduct";
 import CardComponent from "../../components/CardComponent/CardComponent";
 import SliderComponent from "../../components/SilderComponent/SilderComponent";
 import { WrapperButtonMore, WrapperProducts, WrapperTypeProduct } from "./style";
+import Loading from "../../components/LoadingComponent/Loading";
 
 const HomePage = () => {
     const searchProduct = useSelector((state) => state?.product?.search)
     const searchDebounce = useDebounce(searchProduct, 500)
     const [loading, setLoading] = useState(false)
     const [limit, setLimit] = useState(6)
-
-    const arr = ["Sua rua mat", "kem chong nang", "Son moi", "Trang diem mat"]
+    const [typeProducts, setTypeProducts] = useState([])
 
     const fetchProductAll = async (context) => {
         const limit = context?.queryKey && context?.queryKey[1]
@@ -32,12 +32,22 @@ const HomePage = () => {
         config: { retry: 3, retryDelay: 1000, keepPreviousData: true }}
     )
 
+    const fetchAllTypeProduct = async () => {
+        const res = await ProductService.getAllTypeProduct()
+        if(res?.status === 'OK') {
+            setTypeProducts(res?.data)
+        }
+    }
+
+    useEffect(() => {
+        fetchAllTypeProduct()
+    }, [])
 
     return (
-        <div>
+        <Loading isLoading={isLoading || loading}>
             <div style={{ width: '1270px', margin: '0 auto' }}>
                 <WrapperTypeProduct>
-                {arr.map((item) => {
+                {typeProducts.map((item) => {
                     return (
                         <TypeProduct name={item} key={item}/>
                     )
@@ -79,7 +89,7 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </Loading>
     )
 }
 

@@ -124,14 +124,12 @@ const ModalAddProduct = ({open, onClose, queryProduct}) => {
                         name="type"
                         rules={[{ required: true, message: 'Please input your type!' }]}
                     >
-                        {/*<Select*/}
-                        {/*    name="type"*/}
-                        {/*    value={stateProduct.type}*/}
-                        {/*    onChange={handleChangeSelect}*/}
-                        {/*    options={renderOptions(typeProduct?.data?.data)}*/}
-                        {/*/>*/}
-                        <InputComponent value={stateProduct.type} onChange={handleOnchange} name="type" />
-
+                        <Select
+                            name="type"
+                            value={stateProduct?.type}
+                            onChange={handleChangeSelect}
+                            options={renderOptions(typeProduct?.data?.data)}
+                        />
                     </Form.Item>
                     {stateProduct.type === 'add_type' && (
                         <Form.Item
