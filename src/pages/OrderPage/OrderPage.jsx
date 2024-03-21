@@ -1,21 +1,21 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useMutationHooks } from '../../hooks/useMutationHook';
-import * as  UserService from '../../services/UserService'
 import * as message from '../../components/Message/Message'
 import { convertPrice } from '../../utils';
-import { Form, Modal } from 'antd'
 import { CustomCheckbox, WrapperCountOrder, WrapperInfo, WrapperItemOrder, WrapperLeft, WrapperListOrder, WrapperRight, WrapperStyleHeader, WrapperStyleHeaderDilivery, WrapperTotal } from './style';
 import { DeleteOutlined, MinusOutlined, PlusOutlined} from '@ant-design/icons'
-import { updateUser } from '../../redux/slides/userSlide';
 import { decreaseAmount, increaseAmount, removeAllOrderProduct, removeOrderProduct, selectedOrder } from '../../redux/slides/orderSlide';
-import Loading from '../../components/LoadingComponent/Loading';
 import StepComponent from "../../components/StepComponent/StepComponent";
-import InputComponent from '../../components/InputComponent/InputComponent';
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent';
 import { WrapperInputNumber } from '../../components/ProductDetailsComponent/style';
 import ModalUpdateAddress from "./ModalUpdateAddress";
+
+// ý là hiện tại mình đang lưu vào local là data của giỏ hàng đk,
+// thì khi mình thay đổi user thì giỏ hàng.vẫn vậy.
+// Mà để chính xác hơn thì e lưu dưới dạng object userId : data giỏ hàng.
+// Thì khi e thay đỏi user thì e chi cần lấy object e lưu trong local
+// và lấy data tương ứng với userId thôi: object[userId] => data giỏ hàng.
 
 const OrderPage = () => {
     const navigate = useNavigate()
@@ -24,8 +24,6 @@ const OrderPage = () => {
     const user = useSelector((state) => state.user)
     const [listChecked, setListChecked] = useState([])
     const [isOpenModalUpdateInfo, setIsOpenModalUpdateInfo] = useState(false)
-
-    console.log(order, "order")
 
     const onChange = (e) => {
         if(listChecked.includes(e.target.value)){
