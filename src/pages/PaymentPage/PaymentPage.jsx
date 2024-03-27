@@ -5,13 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as OrderService from "../../services/OrderService";
 import * as message from '../../components/Message/Message'
+import * as PaymentService from "../../services/PaymentService";
 import { convertPrice } from "../../utils";
 import { useMutationHooks } from "../../hooks/useMutationHook";
 import { removeAllOrderProduct } from "../../redux/slides/orderSlide";
 import Loading from "../../components/LoadingComponent/Loading";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import ModalUpdateAddress from "./ModalUpdateAddress";
-import {PayPalButton} from "react-paypal-button-v2";
+import { PayPalButton } from "react-paypal-button-v2";
 
 const PaymentPage = () => {
     const navigate = useNavigate()
@@ -124,20 +125,58 @@ const PaymentPage = () => {
         }
     }
 
-    const onSuccessPaypal = () => {
-
+    const onSuccessPaypal = (details, data) => {
+        mutationAddOrder.mutate(
+            {
+                token: user?.access_token,
+                orderItems: order?.orderItemsSelected,
+                fullName: user?.name,
+                address:user?.address,
+                phone:user?.phone,
+                city: user?.city,
+                paymentMethod: payment,
+                itemsPrice: priceMemo,
+                shippingPrice: deliveryPriceMemo,
+                totalPrice: totalPriceMemo,
+                user: user?.id,
+                isPaid :true,
+                paidAt: details.update_time,
+                email: user?.email
+            },
+            {
+                onSuccess: () => {
+                    const arrayOrdered = [];
+                    order?.orderItemsSelected?.forEach(element => {
+                        arrayOrdered.push(element.product)
+                    });
+                    dispatch(removeAllOrderProduct({listChecked: arrayOrdered}))
+                    message.success('Đặt hàng thành công');
+                    navigate('/orderSuccess', {
+                        state: {
+                            delivery,
+                            payment,
+                            orders: order?.orderItemsSelected,
+                            totalPriceMemo: totalPriceMemo
+                        }
+                    })
+                },
+                onError: (error) => {
+                    message.error(`Đặt hàng không thành công! - ${error}`);
+                },
+            }
+        )
     }
 
     const addPaypalScript = async () => {
-        // const { data } = await PaymentService.getConfig()
-        // const script = document.createElement('script')
-        // script.type = 'text/javascript'
-        // script.src = `https://www.paypal.com/sdk/js?client-id=${data}`
-        // script.async = true;
-        // script.onload = () => {
-        //     setSdkReady(true)
-        // }
-        // document.body.appendChild(script)
+        const { data } = await PaymentService.getConfig()
+        const script = document.createElement('script')
+        script.type = 'text/javascript'
+        script.src = `https://www.paypal.com/sdk/js?client-id=${data}`
+        script.async = true;
+        script.onload = () => {
+            setSdkReady(true)
+        }
+        document.body.appendChild(script)
     }
 
     useEffect(() => {
@@ -205,10 +244,10 @@ const PaymentPage = () => {
                                     </span>
                                 </WrapperTotal>
                             </div>
-                            {payment === 'paypal' ? (
+                            {payment === 'paypal' && sdkReady ? (
                                 <div style={{width: '320px'}}>
                                     <PayPalButton
-                                        amount={Math.round(totalPriceMemo / 30000)}
+                                        amount={Math.round(totalPriceMemo / 23000)}
                                         onSuccess={onSuccessPaypal}
                                         onError={() => {
                                             alert('Error')
