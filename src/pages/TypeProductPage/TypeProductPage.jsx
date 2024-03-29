@@ -30,7 +30,7 @@ const TypeProductPage = () => {
     const fetchProductType = async (type, page, limit) => {
         setLoading(true)
         const res = await ProductService.getProductType(type, page, limit)
-        if(res?.status == 'OK') {
+        if(res?.status === 'OK') {
             setLoading(false)
             setProducts(res?.data)
             setPaginate({...paginate, total: res?.totalPage})

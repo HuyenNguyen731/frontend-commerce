@@ -3,12 +3,13 @@
 @import "slick-carousel/slick/slick-theme.css";
 
 :root {
-  --primary-color: #9255FD;
+  --primary-color: #f1692f;
 }
 
 body {
   margin: 0;
   padding: 0;
+  background: #efefef;
 }
 
 * {

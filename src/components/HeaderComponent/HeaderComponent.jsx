@@ -7,7 +7,7 @@ import {
     WrapperTextHeader,
     WrapperTextHeaderSmall
 } from "./style";
-import { UserOutlined, CaretDownOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import ButtonInputSearch from "../ButtonInputSearch/ButtonInputSearch";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,7 @@ import * as UserService from "../../services/UserService";
 import { resetUser } from "../../redux/slides/userSlide";
 import Loading from "../LoadingComponent/Loading";
 import { searchProduct } from "../../redux/slides/productSlide";
+import logo from '../../assets/images/logo-shop.png'
 
 const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     const navigate = useNavigate()
@@ -83,12 +84,14 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
             height: '100%',
             width: '100%',
             display: 'flex',
-            background: '#9255FD',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            background: "linear-gradient(-180deg, #f53d2d, #f63)"
         }}>
             <WrapperHeader style={{ justifyContent: isHiddenSearch && isHiddenSearch ? 'space-between' : 'unset' }}>
                 <Col span={5}>
-                    <WrapperTextHeader to='/'>SHOP</WrapperTextHeader>
+                    <WrapperTextHeader to='/'>
+                        <img src={logo} alt="logo" style={{ height: "40px"}}/>
+                    </WrapperTextHeader>
                 </Col>
                 {!isHiddenSearch && (
                     <Col span={13}>
@@ -96,8 +99,8 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                             size="large"
                             bordered={false}
                             textbutton="Tìm kiếm"
-                            placeholder="input search text"
-                            backgroundColorButton="#5a20c1"
+                            placeholder="Tìm kiếm sản phẩm..."
+                            backgroundColorButton="#f63f2d"
                             onChange={onSearch}
                         />
                     </Col>
@@ -123,11 +126,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                                 </>
                             ) : (
                                 <div onClick={handleNavigateLogin} style={{ cursor: 'pointer' }}>
-                                    <WrapperTextHeaderSmall>Đăng nhập/Đăng ký</WrapperTextHeaderSmall>
-                                    <div>
-                                        <WrapperTextHeaderSmall>Tài khoản</WrapperTextHeaderSmall>
-                                        <CaretDownOutlined />
-                                    </div>
+                                    <WrapperTextHeaderSmall>Đăng nhập/ Đăng nhập</WrapperTextHeaderSmall>
                                 </div>
                             )}
                         </WrapperHeaderAccount>
@@ -137,7 +136,6 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                             <Badge count={order?.orderItems?.length} size="small">
                                 <ShoppingCartOutlined style={{ fontSize: '30px', color: '#fff' }} />
                             </Badge>
-                            <WrapperTextHeaderSmall>Giỏ hàng</WrapperTextHeaderSmall>
                         </div>
                     )}
                 </Col>

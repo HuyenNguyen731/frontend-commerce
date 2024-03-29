@@ -45,18 +45,18 @@ const HomePage = () => {
 
     return (
         <Loading isLoading={isLoading || loading}>
-            <div style={{ width: '1270px', margin: '0 auto' }}>
-                <WrapperTypeProduct>
-                {typeProducts.map((item) => {
-                    return (
-                        <TypeProduct name={item} key={item}/>
-                    )
-                })}
-                </WrapperTypeProduct>
-            </div>
             <div className='body' style={{ width: '100%', backgroundColor: '#efefef', }}>
-                <div id="container" style={{ width: '1270px', margin: '0 auto' }}>
+                <div id="container" style={{ width: '1270px', margin: '0 auto', padding: "20px 0" }}>
                     <SliderComponent arrImages={[slider1, slider2, slider3]} />
+                    <div style={{ backgroundColor: "white", marginTop: "16px" }}>
+                        <WrapperTypeProduct>
+                            {typeProducts.map((item) => {
+                                return (
+                                    <TypeProduct name={item} key={item}/>
+                                )
+                            })}
+                        </WrapperTypeProduct>
+                    </div>
                     <WrapperProducts>
                         {products?.data?.map((product) => {
                             return (
