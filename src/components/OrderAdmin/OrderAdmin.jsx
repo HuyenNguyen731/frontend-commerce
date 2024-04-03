@@ -10,7 +10,7 @@ import { useQuery } from '@tanstack/react-query'
 import { SearchOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { orderConstant } from '../../constant'
-// import PieChartComponent from './PieChart'
+import PieChartComponent from './PieChart'
 
 const OrderAdmin = () => {
     const user = useSelector((state) => state?.user)
@@ -81,6 +81,12 @@ const OrderAdmin = () => {
             ...getColumnSearchProps('userName')
         },
         {
+            title: 'Create At',
+            dataIndex: 'updatedAt',
+            sorter: (a, b) => a.updatedAt.length - b.updatedAt.length,
+            ...getColumnSearchProps('updatedAt')
+        },
+        {
             title: 'Phone',
             dataIndex: 'phone',
             sorter: (a, b) => a.phone.length - b.phone.length,
@@ -119,7 +125,6 @@ const OrderAdmin = () => {
     ];
 
     const dataTable = orders?.data?.length && orders?.data?.map((order) => {
-        console.log('usewr', order)
         return { ...order, key: order._id, userName: order?.shippingAddress?.fullName, phone: order?.shippingAddress?.phone, address: order?.shippingAddress?.address, paymentMethod: orderConstant.payment[order?.paymentMethod],isPaid: order?.isPaid ? 'TRUE' :'FALSE',isDelivered: order?.isDelivered ? 'TRUE' : 'FALSE', totalPrice: convertPrice(order?.totalPrice)}
     })
 
@@ -127,7 +132,7 @@ const OrderAdmin = () => {
         <div>
             <WrapperHeader>Quản lý đơn hàng</WrapperHeader>
             <div style={{height: 200, width:200}}>
-                {/*<PieChartComponent data={orders?.data} />*/}
+                <PieChartComponent data={orders?.data} />
             </div>
             <div style={{ marginTop: '20px' }}>
                 <TableComponent  columns={columns} isLoading={isLoadingOrders} data={dataTable} />

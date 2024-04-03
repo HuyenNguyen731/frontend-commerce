@@ -85,6 +85,7 @@ const PaymentPage = () => {
     const handleAddOrder = () => {
         if(user?.access_token && order?.orderItemsSelected && user?.name
             && user?.address && user?.phone && user?.city && priceMemo && user?.id) {
+
             mutationAddOrder.mutate(
                 {
                     token: user?.access_token,
@@ -98,7 +99,8 @@ const PaymentPage = () => {
                     shippingPrice: deliveryPriceMemo,
                     totalPrice: totalPriceMemo,
                     user: user?.id,
-                    email: user?.email
+                    email: user?.email,
+                    status: "in-progress"
                 },
                 {
                     onSuccess: () => {

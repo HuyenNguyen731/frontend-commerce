@@ -37,6 +37,7 @@ export const WrapperPriceTextProduct = styled.h1`
     font-weight: 500;
     padding: 10px;
     margin-top: 10px;
+    color: #f63f2e;
 `
 
 export const WrapperAddressProduct = styled.div`
@@ -59,11 +60,11 @@ export const WrapperAddressProduct = styled.div`
 
 export const WrapperQualityProduct = styled.div`
     display: flex;
-    gap: 4px;
-    align-items: center;
     width: 120px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    align-items: center;
+    justify-content: space-around;
 `
 
 export const WrapperInputNumber = styled(InputNumber)`

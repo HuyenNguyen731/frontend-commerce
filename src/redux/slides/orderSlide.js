@@ -23,7 +23,7 @@ export const orderSlide = createSlice({
     initialState,
     reducers: {
         addOrderProduct: (state, action) => {
-            const {orderItem} = action.payload
+            const { orderItem, user } = action.payload
             const itemOrder = state?.orderItems?.find((item) => item?.product === orderItem.product)
             if(itemOrder){
                 if(itemOrder.amount <= itemOrder.countInstock) {
@@ -34,6 +34,7 @@ export const orderSlide = createSlice({
             }else {
                 state.orderItems.push(orderItem)
             }
+            state.user = user
         },
         resetOrder: (state) => {
             state.isSucessOrder = false

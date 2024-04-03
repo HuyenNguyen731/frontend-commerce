@@ -27,17 +27,18 @@ const SignInPage = () => {
     )
     const { data, isPending, isSuccess } = mutation
 
-    useEffect(() =>{
-        if(isSuccess) {
+    useEffect(() => {
+        if (isSuccess) {
             if(location?.state) {
                 navigate(location?.state)
             }else {
                 navigate('/')
             }
             localStorage.setItem('access_token', JSON.stringify(data?.access_token))
-            if(data?.access_token) {
+            localStorage.setItem('refresh_token', JSON.stringify(data?.refresh_token))
+            if (data?.access_token) {
                 const decoded = jwtDecode(data?.access_token)
-                if(decoded?.id) {
+                if (decoded?.id) {
                     handleGetDetailsUser(decoded?.id, data?.access_token)
                 }
             }
@@ -45,10 +46,10 @@ const SignInPage = () => {
     }, [isSuccess])
 
     const handleGetDetailsUser = async (id, token) => {
-        // const storage = localStorage.getItem('refresh_token')
-        // const refreshToken = JSON.parse(storage)
+        const storage = localStorage.getItem('refresh_token')
+        const refreshToken = JSON.parse(storage)
         const res = await UserService.getDetailsUser(id, token)
-        dispatch(updateUser(res?.data ))
+        dispatch(updateUser({ ...res?.data, access_token: token,refreshToken }))
     }
 
     const handleNavigateSignUp = () => {
@@ -75,7 +76,7 @@ const SignInPage = () => {
             <div style={{ width: '800px', height: '445px', borderRadius: '6px', background: '#fff', display: 'flex' }}>
                 <WrapperContainerLeft>
                     <h1>Xin chào</h1>
-                    <p>Đăng nhập vào tạo tài khoản</p>
+                    <p>Đăng nhập</p>
                     <InputForm style={{ marginBottom: '10px' }} placeholder="abc@gmail.com" value={email} onChange={handleOnchangeEmail} />
                     <div style={{ position: 'relative' }}>
                         <span
@@ -124,7 +125,7 @@ const SignInPage = () => {
                 </WrapperContainerLeft>
                 <WrapperContainerRight>
                     <Image src={imageLogo} preview={false} alt="iamge-logo" height="203px" width="203px" />
-                    <h4>Mua sắm tại LTTD</h4>
+                    <h4>Mua sắm tại Toptotoes</h4>
                 </WrapperContainerRight>
             </div>
         </div >

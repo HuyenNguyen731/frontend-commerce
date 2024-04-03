@@ -51,7 +51,7 @@ const SignUpPage = () => {
             <div style={{ width: '800px', height: '445px', borderRadius: '6px', background: '#fff', display: 'flex' }}>
                 <WrapperContainerLeft>
                     <h1>Xin chào</h1>
-                    <p>Đăng nhập vào tạo tài khoản</p>
+                    <p>Tạo tài khoản</p>
                     <InputForm style={{ marginBottom: '10px' }} placeholder="abc@gmail.com" value={email} onChange={handleOnchangeEmail} />
                     <div style={{ position: 'relative' }}>
                         {renderEyeIcon(isShowPassword, () => setIsShowPassword(!isShowPassword))}
@@ -68,8 +68,8 @@ const SignUpPage = () => {
                     <p>Bạn đã có tài khoản? <WrapperTextLight onClick={handleNavigateSignIn}> Đăng nhập</WrapperTextLight></p>
                 </WrapperContainerLeft>
                 <WrapperContainerRight>
-                    <Image src={imageLogo} preview={false} alt="iamge-logo" height="203px" width="203px" />
-                    <h4>Mua sắm tại LTTD</h4>
+                    <Image src={imageLogo} preview={false} alt="image-logo" height="203px" width="203px" />
+                    <h4>Mua sắm tại Toptotoes</h4>
                 </WrapperContainerRight>
             </div>
         </div >
