@@ -34,6 +34,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
 
     const handleLogout = async () => {
         setLoading(true)
+        localStorage.removeItem('refresh_token');
         await UserService.logoutUser()
         dispatch(resetUser())
         setLoading(false)
