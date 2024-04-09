@@ -12,7 +12,7 @@ import { removeAllOrderProduct } from "../../redux/slides/orderSlide";
 import Loading from "../../components/LoadingComponent/Loading";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import ModalUpdateAddress from "./ModalUpdateAddress";
-import { PayPalButton } from "react-paypal-button-v2";
+import { PayPalButtons } from "@paypal/react-paypal-js";
 
 const PaymentPage = () => {
     const navigate = useNavigate()
@@ -127,7 +127,7 @@ const PaymentPage = () => {
         }
     }
 
-    const onSuccessPaypal = (details, data) => {
+    const onSuccessPaypal = (details) => {
         mutationAddOrder.mutate(
             {
                 token: user?.access_token,
@@ -248,11 +248,29 @@ const PaymentPage = () => {
                             </div>
                             {payment === 'paypal' && sdkReady ? (
                                 <div style={{width: '320px'}}>
-                                    <PayPalButton
-                                        amount={Math.round(totalPriceMemo / 23000)}
-                                        onSuccess={onSuccessPaypal}
-                                        onError={() => {
-                                            alert('Error')
+                                    {/*<PayPalButton*/}
+                                    {/*    amount={Math.round(totalPriceMemo / 23000)}*/}
+                                    {/*    onSuccess={onSuccessPaypal}*/}
+                                    {/*    onError={() => {*/}
+                                    {/*        alert('Error')*/}
+                                    {/*    }}*/}
+                                    {/*/>*/}
+
+                                    <PayPalButtons
+                                        createOrder={(data, actions) => {
+                                            return actions.order.create({
+                                                purchase_units: [
+                                                    {
+                                                        amount: {
+                                                            value: Math.round(totalPriceMemo / 23000).toString(),
+                                                            currency_code: 'USD',
+                                                        },
+                                                    },
+                                                ],
+                                            });
+                                        }}
+                                        onApprove={(data, actions) => {
+                                            onSuccessPaypal(data);
                                         }}
                                     />
                                 </div>
