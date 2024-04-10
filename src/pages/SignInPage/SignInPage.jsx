@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
 import InputForm from '../../components/InputForm/InputForm'
-import { WrapperContainerLeft, WrapperContainerRight, WrapperTextLight } from './style'
+import { WrapperContainerRight, WrapperTextLight } from './style'
 import imageLogo from '../../assets/images/logo-login.png'
 import { Image } from 'antd'
 import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons'
@@ -72,12 +72,11 @@ const SignInPage = () => {
     }
 
     return (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0, 0, 0, 0.53)', height: '100vh' }}>
-            <div style={{ width: '800px', height: '445px', borderRadius: '6px', background: '#fff', display: 'flex' }}>
-                <WrapperContainerLeft>
-                    <h1>Xin chào</h1>
-                    <p>Đăng nhập</p>
-                    <InputForm style={{ marginBottom: '10px' }} placeholder="abc@gmail.com" value={email} onChange={handleOnchangeEmail} />
+        <div className="flex items-center justify-center bg-[#707070] h-[100vh]">
+            <div className="lg:min-w-[800px] min-w-[370px] min-h-[445px] rounded-md bg-white lg:flex block">
+                <div className="flex-1 lg:p-12 p-5 flex-col">
+                    <h1 className="text-3xl mb-6 font-semibold">Đăng nhập</h1>
+                    <InputForm style={{ marginBottom: '10px' }} placeholder="example@gmail.com" value={email} onChange={handleOnchangeEmail} />
                     <div style={{ position: 'relative' }}>
                         <span
                             onClick={() => setIsShowPassword(!isShowPassword)}
@@ -120,12 +119,12 @@ const SignInPage = () => {
                             styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }}
                         ></ButtonComponent>
                     </Loading>
-                    <p><WrapperTextLight>Quên mật khẩu?</WrapperTextLight></p>
+                    <p className="py-1"><WrapperTextLight>Quên mật khẩu?</WrapperTextLight></p>
                     <p>Chưa có tài khoản? <WrapperTextLight onClick={handleNavigateSignUp}> Tạo tài khoản</WrapperTextLight></p>
-                </WrapperContainerLeft>
-                <WrapperContainerRight>
-                    <Image src={imageLogo} preview={false} alt="iamge-logo" height="203px" width="203px" />
-                    <h4>Mua sắm tại Toptotoes</h4>
+                </div>
+                <WrapperContainerRight className="lg:w-[300px] flex flex-col items-center justify-center gap-1 p-10">
+                    <Image src={imageLogo} preview={false} alt="image-logo" height="203px" width="203px" />
+                    <h4 className="text-white">Mua sắm tại Toptotoes</h4>
                 </WrapperContainerRight>
             </div>
         </div >

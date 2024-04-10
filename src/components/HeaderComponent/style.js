@@ -1,14 +1,5 @@
-import { Row } from "antd";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-
-export const WrapperHeader = styled(Row)`
-  align-items: center;
-  gap: 16px;
-  flex-wrap: nowrap;
-  width: 1270px;
-  padding: 16px 0;
-`
 
 export const WrapperTextHeader = styled(Link)`
     font-size: 18px;

@@ -1,15 +1,16 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import NavBarComponent from "../../components/NavbarComponent/NavbarComponent";
 import CardComponent from "../../components/CardComponent/CardComponent";
-import {Col, Pagination, Row} from "antd";
-import {WrapperNavbar, WrapperProducts} from "./style";
+import { Col, Pagination, Row } from "antd";
+import { WrapperNavbar, WrapperProducts } from "./style";
 import * as ProductService from "../../services/ProductService";
-import { useLocation } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import Loading from "../../components/LoadingComponent/Loading";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useSelector } from "react-redux";
 
 const TypeProductPage = () => {
+    const navigate = useNavigate()
     const { state}  = useLocation()
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(false)
@@ -47,13 +48,16 @@ const TypeProductPage = () => {
 
     return (
         <Loading isLoading={loading}>
-            <div style={{ width: '100%', background: '#efefef', height: 'calc(100vh - 64px)' }}>
+            <div className="w-full bg-[#efefef]">
                 <div style={{ width: '1270px', margin: '0 auto', height: '100%' }}>
-                    <Row style={{ flexWrap: 'nowrap', paddingTop: '10px',height: 'calc(100% - 20px)' }}>
+                    <div className="text-md pt-2" >
+                        <span className="cursor-pointer font-bold" onClick={() => {navigate('/')}}>Trang chủ</span> - Danh mục {state}
+                    </div>
+                    <Row style={{ flexWrap: 'nowrap',height: '' }}>
                         <WrapperNavbar span={4} >
                             <NavBarComponent />
                         </WrapperNavbar>
-                        <Col span={20} style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                        <Col span={20} className="flex flex-col justify-between">
                             <WrapperProducts >
                                 {products?.filter((pro) => {
                                     if(searchDebounce === '') {
@@ -79,7 +83,7 @@ const TypeProductPage = () => {
                                     )
                                 })}
                             </WrapperProducts>
-                            <Pagination defaultCurrent={paginate.page + 1} total={paginate?.total} onChange={onChange} style={{ textAlign: 'center', marginTop: '10px' }} />
+                            <Pagination defaultCurrent={paginate.page + 1} total={paginate?.total} onChange={onChange} className="text-center mt-3" />
                         </Col>
                     </Row>
                 </div>

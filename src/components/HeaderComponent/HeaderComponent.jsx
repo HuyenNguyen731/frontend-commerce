@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react'
-import {Badge, Col, Popover} from "antd";
+import React, { useEffect, useState } from 'react'
+import { Badge, Popover } from "antd";
 import {
     WrapperContentPopup,
-    WrapperHeader,
     WrapperHeaderAccount,
     WrapperTextHeader,
     WrapperTextHeaderSmall
@@ -81,21 +80,15 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     }
 
     return (
-        <div style={{
-            height: '100%',
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            background: "linear-gradient(-180deg, #f53d2d, #f63)"
-        }}>
-            <WrapperHeader style={{ justifyContent: isHiddenSearch && isHiddenSearch ? 'space-between' : 'unset' }}>
-                <Col span={5}>
+        <div className="h-full w-full flex justify-center" style={{ background: "linear-gradient(-180deg, #f53d2d, #f63)" }}>
+            <div className="grid grid-cols-12 py-[16px] w-[1270px]">
+                <div className="lg:col-span-3 col-span-4">
                     <WrapperTextHeader to='/'>
-                        <img src={logo} alt="logo" style={{ height: "40px"}}/>
+                        <img src={logo} alt="logo" className="h-[40px]"/>
                     </WrapperTextHeader>
-                </Col>
-                {!isHiddenSearch && (
-                    <Col span={13}>
+                </div>
+                {!isHiddenSearch ? (
+                    <div className="lg:block hidden col-span-6">
                         <ButtonInputSearch
                             size="large"
                             bordered={false}
@@ -104,29 +97,28 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                             backgroundColorButton="#f63f2d"
                             onChange={onSearch}
                         />
-                    </Col>
-                )}
-                <Col span={6} style={{ display: 'flex', gap: '54px', alignItems: 'center' }}>
+                    </div>
+                ): <div className="col-span-6"></div>}
+                <div className="flex gap-[54px] items-center justify-end lg:col-span-3 col-span-8">
                     <Loading isLoading={loading}>
                         <WrapperHeaderAccount>
                             {userAvatar ? (
-                                <img src={userAvatar} alt="avatar" style={{
-                                    height: '30px',
-                                    width: '30px',
-                                    borderRadius: '50%',
-                                    objectFit: 'cover'
-                                }} />
+                                <img src={userAvatar} alt="avatar" className="h-[30px] w-[30px] rounded-full object-cover" />
                             ) : (
                                 <UserOutlined style={{ fontSize: '26px' }} />
                             )}
                             {user?.email ? (
                                 <>
                                     <Popover content={content} trigger="click" open={isOpenPopup}>
-                                        <div style={{ cursor: 'pointer',maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }} onClick={() => setIsOpenPopup((prev) => !prev)}>{userName?.length ? userName : user?.email}</div>
+                                        <div
+                                            className="cursor-pointer max-w-[100px] overflow-hidden text-ellipsis"
+                                            onClick={() => setIsOpenPopup((prev) => !prev)}>
+                                            {userName?.length ? userName : user?.email}
+                                        </div>
                                     </Popover>
                                 </>
                             ) : (
-                                <div onClick={handleNavigateLogin} style={{ cursor: 'pointer' }}>
+                                <div onClick={handleNavigateLogin} className="cursor-pointer">
                                     <WrapperTextHeaderSmall>Đăng nhập/ Đăng nhập</WrapperTextHeaderSmall>
                                 </div>
                             )}
@@ -139,8 +131,8 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                             </Badge>
                         </div>
                     )}
-                </Col>
-            </WrapperHeader>
+                </div>
+            </div>
         </div>
     )
 }

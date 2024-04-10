@@ -7,8 +7,10 @@ const ProductDetailsPage = () => {
     const navigate = useNavigate()
     return (
         <div style={{width: '100%',background: '#efefef', height: '100%'}}>
-            <div style={{ width: '1270px', height: '100%', margin: '0 auto'}} >
-                <h5 style={{ padding: "8px 0 0", fontSize: "14px" }}><span style={{cursor: 'pointer', fontWeight: 'bold'}} onClick={() => {navigate('/')}}>Trang chủ</span> - Chi tiết sản phẩm</h5>
+            <div className="w-[1270px] h-full mx-auto">
+                <h5 className="text-md pt-2" >
+                    <span className="cursor-pointer font-bold" onClick={() => {navigate('/')}}>Trang chủ</span> - Chi tiết sản phẩm
+                </h5>
                 <ProductDetailsComponent idProduct={id} />
             </div>
         </div>

@@ -15,7 +15,6 @@ import Loading from "../../components/LoadingComponent/Loading";
 const HomePage = () => {
     const searchProduct = useSelector((state) => state?.product?.search)
     const searchDebounce = useDebounce(searchProduct, 500)
-    const [loading, setLoading] = useState(false)
     const [limit, setLimit] = useState(12)
     const [typeProducts, setTypeProducts] = useState([])
 
@@ -44,10 +43,10 @@ const HomePage = () => {
     }, [])
 
     return (
-        <Loading isLoading={isLoading || loading}>
-            <div className='body' style={{ width: '100%', backgroundColor: '#efefef', }}>
-                <div id="container" style={{ width: '1270px', margin: '0 auto', padding: "20px 0" }}>
-                    <SliderComponent arrImages={[slider1, slider2, slider3]} />
+        <div className='body w-full bg-[#efefef]'>
+            <div id="container" className="lg:w-[1270px] w-full my-0 mx-auto py-5" >
+                <SliderComponent arrImages={[slider1, slider2, slider3]} />
+                <Loading isLoading={isLoading}>
                     <div style={{ backgroundColor: "white", marginTop: "16px" }}>
                         <WrapperTypeProduct>
                             {typeProducts.map((item) => {
@@ -76,20 +75,24 @@ const HomePage = () => {
                             )
                         })}
                     </WrapperProducts>
-                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+                    <div className="flex w-full justify-center mt-3">
                         <WrapperButtonMore
-                            textbutton={isPreviousData ? 'Load more' : "Xem thêm"} type="outline" styleButton={{
-                            border: `1px solid ${products?.total === products?.data?.length ? '#f5f5f5' : '#9255FD'}`, color: `${products?.total === products?.data?.length ? '#f5f5f5' : '#9255FD'}`,
-                            width: '240px', height: '38px', borderRadius: '4px'
-                        }}
+                            textbutton={isPreviousData ? 'Load more' : "Xem thêm"} type="outline"
+                            styleButton={{
+                                border: `1px solid ${products?.total === products?.data?.length ? '#f5f5f5' : '#9255FD'}`,
+                                color: `${products?.total === products?.data?.length ? '#f5f5f5' : '#9255FD'}`,
+                                width: '240px',
+                                height: '38px',
+                                borderRadius: '4px'
+                            }}
                             disabled={products?.total === products?.data?.length || products?.totalPage === 1}
                             styleTextButton={{ fontWeight: 500, color: products?.total === products?.data?.length && '#fff' }}
                             onClick={() => setLimit((prev) => prev + 6)}
                         />
                     </div>
-                </div>
+                </Loading>
             </div>
-        </Loading>
+        </div>
     )
 }
 

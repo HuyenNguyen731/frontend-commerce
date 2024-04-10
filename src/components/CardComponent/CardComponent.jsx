@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { convertPrice } from '../../utils'
 
 const CardComponent = (props) => {
-    const { countInStock, description, image, name, price, rating, type, discount, sold, id } = props
+    const { image, name, price, rating, discount, sold, id } = props
     const navigate = useNavigate()
     const handleDetailsProduct = (id) => {
         navigate(`/product-details/${id}`)

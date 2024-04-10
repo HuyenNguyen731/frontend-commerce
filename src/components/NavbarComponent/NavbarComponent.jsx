@@ -1,6 +1,6 @@
-import { Checkbox, Rate } from 'antd'
 import React from 'react'
-import { WrapperContent, WrapperLabelText, WrapperTextPrice, WrapperTextValue } from './style'
+import {Button, Checkbox, Col, Divider, InputNumber, Rate, Row, Slider} from 'antd'
+import { WrapperContent, WrapperLabelText, WrapperTextPrice } from './style'
 
 const NavBarComponent = () => {
     const onChange = () => { }
@@ -8,9 +8,7 @@ const NavBarComponent = () => {
         switch (type) {
             case 'text':
                 return options.map((option) => {
-                    return (
-                        <WrapperTextValue>{option}</WrapperTextValue>
-                    )
+                    return <Button className="text-left p-0 text-gray-800" type="link" size="small">{option}</Button>
                 })
             case 'checkbox':
                 return (
@@ -25,16 +23,19 @@ const NavBarComponent = () => {
             case 'star':
                 return options.map((option) => {
                     return (
-                        <div style={{ display: 'flex' }}>
+                        <Button className="flex gap-5 text-gray-800" type="link" size="small">
                             <Rate style={{ fontSize: '12px' }} disabled defaultValue={option} />
-                            <span> {`tu ${option}  sao`}</span>
-                        </div>
+                            <span> {`từ ${option}  sao`}</span>
+                        </Button>
                     )
                 })
             case 'price':
                 return options.map((option) => {
                     return (
-                        <WrapperTextPrice>{option}</WrapperTextPrice>
+                       <>
+                           <WrapperTextPrice>{option}</WrapperTextPrice>
+                           <Slider range={{ draggableTrack: true }} defaultValue={[20, 50]} />
+                       </>
                     )
                 })
             default:
@@ -44,14 +45,26 @@ const NavBarComponent = () => {
 
     return (
         <div>
-            <WrapperLabelText>Label</WrapperLabelText>
             <WrapperContent>
-                {renderContent('text', ['Tu lanh', 'TV', 'MAYGIAT'])}
-                {renderContent('checkbox', [
-                    {value: "a", label: 'tulanh'}
-                ])}
+                <WrapperLabelText>DANH MỤC</WrapperLabelText>
+                {renderContent('text', ["Nước tẩy trang", "Sunscreen", "Serum", "Dụng cụ trang điểm"])}
+                <Divider className="mt-3 mb-5"/>
+
+                <WrapperLabelText>ĐÁNH GIÁ</WrapperLabelText>
                 {renderContent('star', [3, 4, 5])}
-                {renderContent("price", ["duoi 40.000", "tren 500.000"])}
+                <Divider className="mt-3 mb-5"/>
+
+                <WrapperLabelText>KHOẢNG GIÁ</WrapperLabelText>
+                {renderContent("price", ["từ 100.000đ đến 500.000đ"])}
+                <Divider className="mt-3 mb-5"/>
+
+                <WrapperLabelText>SẢN PHẨM</WrapperLabelText>
+                {renderContent('checkbox', [
+                    {value: "sunscreen", label: 'Sunscreen'},
+                    {value: "serum", label: 'Serum'},
+                    {value: "phannuoc", label: 'Cushion'},
+                    {value: "trangdiem", label: 'Dụng cụ trang điểm'},
+                ])}
             </WrapperContent>
         </div>
     )

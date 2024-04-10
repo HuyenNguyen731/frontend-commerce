@@ -21,7 +21,6 @@ root.render(
                 <PayPalScriptProvider>
                     <App />
                 </PayPalScriptProvider>,
-                <App />
             </PersistGate>
         </Provider>
         <ReactQueryDevtools initialIsOpen={false} />

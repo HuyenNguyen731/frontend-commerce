@@ -7,7 +7,7 @@ import Loading from '../../components/LoadingComponent/Loading'
 import * as message from '../../components/Message/Message'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
 import InputForm from '../../components/InputForm/InputForm'
-import { WrapperContainerLeft, WrapperContainerRight, WrapperTextLight } from './style'
+import { WrapperContainerRight, WrapperTextLight } from './style'
 import imageLogo from '../../assets/images/logo-login.png'
 import { Image } from 'antd'
 
@@ -47,12 +47,11 @@ const SignUpPage = () => {
     )
 
     return (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0, 0, 0, 0.53)', height: '100vh' }}>
-            <div style={{ width: '800px', height: '445px', borderRadius: '6px', background: '#fff', display: 'flex' }}>
-                <WrapperContainerLeft>
-                    <h1>Xin chào</h1>
-                    <p>Tạo tài khoản</p>
-                    <InputForm style={{ marginBottom: '10px' }} placeholder="abc@gmail.com" value={email} onChange={handleOnchangeEmail} />
+        <div className="flex items-center justify-center bg-[#707070] h-[100vh]">
+            <div className="lg:min-w-[800px] min-w-[370px] min-h-[445px] rounded-md bg-white lg:flex block">
+                <div className="flex-1 lg:p-12 p-5 flex-col">
+                    <h1 className="text-3xl mb-6 font-semibold">Tạo tài khoản</h1>
+                    <InputForm style={{ marginBottom: '10px' }} placeholder="example@gmail.com" value={email} onChange={handleOnchangeEmail} />
                     <div style={{ position: 'relative' }}>
                         {renderEyeIcon(isShowPassword, () => setIsShowPassword(!isShowPassword))}
                         <InputForm placeholder="password" style={{ marginBottom: '10px' }} type={isShowPassword ? "text" : "password"} value={password} onChange={handleOnchangePassword} />
@@ -63,13 +62,22 @@ const SignUpPage = () => {
                     </div>
                     <span style={{ color: 'red' }}>{data?.message}</span>
                     <Loading isLoading={isPending}>
-                        <ButtonComponent disabled={!email.length || !password.length || !confirmPassword.length} onClick={handleSignUp} size={40} styleButton={{ background: 'rgb(255, 57, 69)', height: '48px', width: '100%', border: 'none', borderRadius: '4px', margin: '26px 0 10px' }} textbutton={'Đăng ký'} styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }} />
+                        <ButtonComponent
+                            size={40}
+                            onClick={handleSignUp}
+                            textbutton={'Đăng ký'}
+                            styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }}
+                            disabled={!email.length || !password.length || !confirmPassword.length}
+                            styleButton={{ background: 'rgb(255, 57, 69)', height: '48px', width: '100%', border: 'none', borderRadius: '4px', margin: '26px 0 10px' }}
+                        />
                     </Loading>
-                    <p>Bạn đã có tài khoản? <WrapperTextLight onClick={handleNavigateSignIn}> Đăng nhập</WrapperTextLight></p>
-                </WrapperContainerLeft>
-                <WrapperContainerRight>
+                    <div className="mt-2">
+                        Bạn đã có tài khoản? <WrapperTextLight onClick={handleNavigateSignIn}> Đăng nhập</WrapperTextLight>
+                    </div>
+                </div>
+                <WrapperContainerRight className="lg:w-[300px] flex flex-col items-center justify-center gap-1 p-10">
                     <Image src={imageLogo} preview={false} alt="image-logo" height="203px" width="203px" />
-                    <h4>Mua sắm tại Toptotoes</h4>
+                    <h4 className="text-white">Mua sắm tại Toptotoes</h4>
                 </WrapperContainerRight>
             </div>
         </div >
