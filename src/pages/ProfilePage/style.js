@@ -4,14 +4,12 @@ import styled from "styled-components";
 export const WrapperHeader = styled.h1`
     color: #000;
     font-size: 18px;
-    margin: 12px 0;
     text-align: center;
 `
 export const WrapperContentProfile = styled.div`
     display: flex;
     flex-direction: column;
     border: 1px solid #ccc;
-    width: 600px;
     margin: 0 auto;
     padding: 30px;
     border-radius: 10px;

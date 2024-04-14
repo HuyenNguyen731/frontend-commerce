@@ -50,10 +50,10 @@ const TypeProductPage = () => {
         <Loading isLoading={loading}>
             <div className="w-full bg-[#efefef]">
                 <div style={{ width: '1270px', margin: '0 auto', height: '100%' }}>
-                    <div className="text-md pt-2" >
-                        <span className="cursor-pointer font-bold" onClick={() => {navigate('/')}}>Trang chủ</span> - Danh mục {state}
-                    </div>
-                    <Row style={{ flexWrap: 'nowrap',height: '' }}>
+                    <h5 className="text-md p-4 my-4 bg-white rounded-lg" >
+                        <span className="cursor-pointer font-semibold" onClick={() => {navigate('/')}}>Trang chủ</span> » Danh mục {state}
+                    </h5>
+                    <Row style={{ flexWrap: 'nowrap', marginTop: "-14px"}}>
                         <WrapperNavbar span={4} >
                             <NavBarComponent />
                         </WrapperNavbar>

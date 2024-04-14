@@ -145,24 +145,23 @@ const ProductDetailsComponent = ({idProduct}) => {
                         <WrapperStyleColImage span={4} sty>
                             <WrapperStyleImageSmall src={productDetails?.image} alt="image small" preview={false} />
                         </WrapperStyleColImage>
-                        <WrapperStyleColImage span={4}>
-                            <WrapperStyleImageSmall src={imageProductSmall} alt="image small" preview={false} />
-                        </WrapperStyleColImage>
+                        {/*<WrapperStyleColImage span={4}>*/}
+                        {/*    <WrapperStyleImageSmall src={imageProductSmall} alt="image small" preview={false} />*/}
+                        {/*</WrapperStyleColImage>*/}
                     </Row>
                 </Col>
                 <Col span={14} style={{ paddingLeft: '10px' }}>
                     <WrapperStyleNameProduct>{productDetails?.name}</WrapperStyleNameProduct>
-                    <div>
+                    <div className="my-5">
                         <Rate allowHalf defaultValue={productDetails?.rating} value={productDetails?.rating} />
                         <WrapperStyleTextSell> | Đã bán 1000+</WrapperStyleTextSell>
                     </div>
                     <WrapperPriceProduct>
                         <WrapperPriceTextProduct>{convertPrice(productDetails?.price)}</WrapperPriceTextProduct>
                     </WrapperPriceProduct>
-                    <WrapperAddressProduct>
+                    <WrapperAddressProduct className="py-5">
                         <span>Giao đến </span>
-                        <span className='address'>{user?.address}</span> -
-                        <span className='change-address'> Đổi địa chỉ</span>
+                        <span className='address'>{user?.address}</span>
                     </WrapperAddressProduct>
                     <LikeButtonComponent
                         dataHref={ process.env.REACT_APP_IS_LOCAL
@@ -183,6 +182,19 @@ const ProductDetailsComponent = ({idProduct}) => {
                         </WrapperQualityProduct>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <ButtonComponent
+                            size={40}
+                            styleButton={{
+                                background: '#fff',
+                                height: '48px',
+                                width: '220px',
+                                border: '1px solid #f63f2e',
+                                borderRadius: '4px'
+                            }}
+                            textbutton={'Thêm vào giỏ hàng'}
+                            styleTextButton={{ color: '#f63f2e', fontSize: '15px' }}
+                            onClick={handleAddOrderProduct}
+                        ></ButtonComponent>
                         <div>
                             <ButtonComponent
                                 size={40}
@@ -193,25 +205,12 @@ const ProductDetailsComponent = ({idProduct}) => {
                                     border: 'none',
                                     borderRadius: '4px'
                                 }}
-                                onClick={handleAddOrderProduct}
-                                textbutton={'Thêm vào giỏ hàng'}
+                                onClick={handleBuyNow}
+                                textbutton={'Mua ngay'}
                                 styleTextButton={{ color: '#fff', fontSize: '15px', fontWeight: '700' }}
                             ></ButtonComponent>
                             {errorLimitOrder && <div style={{color: 'red'}}>Sản phẩm hết hàng</div>}
                         </div>
-                        <ButtonComponent
-                            size={40}
-                            styleButton={{
-                                background: '#fff',
-                                height: '48px',
-                                width: '220px',
-                                border: '1px solid #f63f2e',
-                                borderRadius: '4px'
-                            }}
-                            textbutton={'Mua ngay'}
-                            styleTextButton={{ color: '#f63f2e', fontSize: '15px' }}
-                            onClick={handleBuyNow}
-                        ></ButtonComponent>
                     </div>
                 </Col>
                 {/*<CommentComponent*/}
@@ -224,12 +223,12 @@ const ProductDetailsComponent = ({idProduct}) => {
                 {/*/>*/}
             </Row>
 
-            <div>
-                <div className="p-16 bg-[#fafafa] text-lg font-medium">
-                    CHI TIẾT SẢN PHẨM
-                </div>
-                <div>
-                    {productDetails?.description}
+            <div className="my-5 rounded-md">
+                <div className="p-4 bg-white">
+                    <div className="text-xl font-medium">CHI TIẾT SẢN PHẨM</div>
+                    <div className="text-md">
+                        {productDetails?.description}
+                    </div>
                 </div>
             </div>
         </Loading>

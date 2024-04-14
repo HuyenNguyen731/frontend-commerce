@@ -13,8 +13,10 @@ import { Button } from 'antd'
 import { UploadOutlined} from '@ant-design/icons'
 import {updateUser} from "../../redux/slides/userSlide";
 import { getBase64 } from '../../utils'
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const user = useSelector((state) => state.user)
     const [email, setEmail] = useState('')
@@ -77,57 +79,40 @@ const ProfilePage = () => {
         mutation.mutate({ id: user?.id, email, name, phone, address, avatar, access_token: user?.access_token })
     }
     return (
-        <div style={{ width: '1270px', margin: '0 auto', height: '500px', }}>
-            <WrapperHeader>Thông tin người dùng</WrapperHeader>
+        <div className="lg:w-[1270px] mx-auto h-[500px]">
+            <h5 className="text-md p-4 my-4 bg-white rounded-lg" >
+                <span className="cursor-pointer font-bold" onClick={() => {navigate('/')}}>Trang chủ</span> » Thông tin người dùng
+            </h5>
             <Loading isLoading={isPending}>
-                <WrapperContentProfile>
+                <WrapperContentProfile className="lg:w-[600px]">
+                    <div className="flex justify-between">
+                        <WrapperHeader>Thông tin người dùng</WrapperHeader>
+                        <div className="text-right">
+                            <ButtonComponent
+                                onClick={handleUpdate}
+                                size={40}
+                                styleButton={{
+                                    height: '30px',
+                                    width: 'fit-content',
+                                    borderRadius: '4px',
+                                    padding: '2px 16px 6px'
+                                }}
+                                textbutton={'Cập nhật'}
+                                styleTextButton={{ color: 'rgb(26, 148, 255)', fontSize: '15px', fontWeight: '500' }}
+                            ></ButtonComponent>
+                        </div>
+                    </div>
                     <WrapperInput>
                         <WrapperLabel htmlFor="name">Name</WrapperLabel>
-                        <InputForm style={{ width: '300px' }} id="name" value={name} onChange={handleOnchangeName} />
-                        <ButtonComponent
-                            onClick={handleUpdate}
-                            size={40}
-                            styleButton={{
-                                height: '30px',
-                                width: 'fit-content',
-                                borderRadius: '4px',
-                                padding: '2px 6px 6px'
-                            }}
-                            textbutton={'Cập nhật'}
-                            styleTextButton={{ color: 'rgb(26, 148, 255)', fontSize: '15px', fontWeight: '700' }}
-                        ></ButtonComponent>
+                        <InputForm className="w-full" id="name" value={name} onChange={handleOnchangeName} />
                     </WrapperInput>
                     <WrapperInput>
                         <WrapperLabel htmlFor="email">Email</WrapperLabel>
-                        <InputForm style={{ width: '300px' }} id="email" value={email} onChange={handleOnchangeEmail} />
-                        <ButtonComponent
-                            onClick={handleUpdate}
-                            size={40}
-                            styleButton={{
-                                height: '30px',
-                                width: 'fit-content',
-                                borderRadius: '4px',
-                                padding: '2px 6px 6px'
-                            }}
-                            textbutton={'Cập nhật'}
-                            styleTextButton={{ color: 'rgb(26, 148, 255)', fontSize: '15px', fontWeight: '700' }}
-                        ></ButtonComponent>
+                        <InputForm className="w-full" id="email" value={email} onChange={handleOnchangeEmail} />
                     </WrapperInput>
                     <WrapperInput>
                         <WrapperLabel htmlFor="phone">Phone</WrapperLabel>
-                        <InputForm style={{ width: '300px' }} id="email" value={phone} onChange={handleOnchangePhone} />
-                        <ButtonComponent
-                            onClick={handleUpdate}
-                            size={40}
-                            styleButton={{
-                                height: '30px',
-                                width: 'fit-content',
-                                borderRadius: '4px',
-                                padding: '2px 6px 6px'
-                            }}
-                            textbutton={'Cập nhật'}
-                            styleTextButton={{ color: 'rgb(26, 148, 255)', fontSize: '15px', fontWeight: '700' }}
-                        ></ButtonComponent>
+                        <InputForm className="w-full" id="email" value={phone} onChange={handleOnchangePhone} />
                     </WrapperInput>
                     <WrapperInput>
                         <WrapperLabel htmlFor="avatar">Avatar</WrapperLabel>
@@ -142,35 +127,10 @@ const ProfilePage = () => {
                                 objectFit: 'cover'
                             }} alt="avatar"/>
                         )}
-                        {/* <InputForm style={{ width: '300px' }} id="avatar" value={avatar} onChange={handleOnchangeAvatar} /> */}
-                        <ButtonComponent
-                            onClick={handleUpdate}
-                            size={40}
-                            styleButton={{
-                                height: '30px',
-                                width: 'fit-content',
-                                borderRadius: '4px',
-                                padding: '2px 6px 6px'
-                            }}
-                            textbutton={'Cập nhật'}
-                            styleTextButton={{ color: 'rgb(26, 148, 255)', fontSize: '15px', fontWeight: '700' }}
-                        ></ButtonComponent>
                     </WrapperInput>
                     <WrapperInput>
                         <WrapperLabel htmlFor="address">Address</WrapperLabel>
-                        <InputForm style={{ width: '300px' }} id="address" value={address} onChange={handleOnchangeAddress} />
-                        <ButtonComponent
-                            onClick={handleUpdate}
-                            size={40}
-                            styleButton={{
-                                height: '30px',
-                                width: 'fit-content',
-                                borderRadius: '4px',
-                                padding: '2px 6px 6px'
-                            }}
-                            textbutton={'Cập nhật'}
-                            styleTextButton={{ color: 'rgb(26, 148, 255)', fontSize: '15px', fontWeight: '700' }}
-                        ></ButtonComponent>
+                        <InputForm className="w-full" id="address" value={address} onChange={handleOnchangeAddress} />
                     </WrapperInput>
                 </WrapperContentProfile>
             </Loading>
