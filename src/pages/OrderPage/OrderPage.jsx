@@ -135,7 +135,7 @@ const OrderPage = () => {
 
     return (
         <div style={{background: '#f5f5fa', width: '100%', height: '100vh'}}>
-            <div style={{height: '100%', width: '1058px', margin: '0 auto'}}>
+            <div style={{height: '100%', width: '1150px', margin: '0 auto'}}>
                 <h3 style={{fontWeight: 'bold'}}>Giỏ hàng</h3>
                 <div style={{ display: 'flex', justifyContent: 'center'}}>
                     <WrapperLeft>

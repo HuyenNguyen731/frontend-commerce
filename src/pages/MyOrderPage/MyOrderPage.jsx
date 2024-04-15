@@ -66,7 +66,7 @@ const MyOrderPage = () => {
     return (
         <Loading isLoading={isLoading || isLoadingCancel}>
             <WrapperContainer>
-                <div style={{ height: '100%', width: '1058px', margin: '0 auto' }}>
+                <div style={{ height: '100%', width: '1150px', margin: '0 auto' }}>
                     <h5 className="text-md p-4 my-4 bg-white rounded-lg">
                         <span className="cursor-pointer font-bold" onClick={() => navigate('/')}>Trang chủ</span> » Đơn hàng của tôi
                     </h5>

@@ -31,7 +31,7 @@ const FooterComponent = () => {
                     <img alt="Bo cong thuong" src={image} width="100px"/>
                 </div>
             </div>
-            <div className="flex justify-between pb-20 pt-10 w-[1058px] mx-auto text-white border-b border-b-gray-600">
+            <div className="flex justify-between pb-20 pt-10 w-[1150px] mx-auto text-white border-b border-b-gray-600">
                 <div>© Bản quyền thuộc về Toptotoes.vn</div>
                 <div>Chính sách và bảo mật</div>
             </div>
