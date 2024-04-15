@@ -49,7 +49,7 @@ const TypeProductPage = () => {
     return (
         <Loading isLoading={loading}>
             <div className="w-full bg-[#efefef]">
-                <div style={{ width: '1270px', margin: '0 auto', height: '100%' }}>
+                <div style={{ width: '1058px', margin: '0 auto', height: '100%' }}>
                     <h5 className="text-md p-4 my-4 bg-white rounded-lg" >
                         <span className="cursor-pointer font-semibold" onClick={() => {navigate('/')}}>Trang chủ</span> » Danh mục {state}
                     </h5>

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { convertPrice } from '../../utils'
 
 const CardComponent = (props) => {
-    const { image, name, price, rating, discount, sold, id } = props
+    const { image, name, price, rating, discount, sold, id, className } = props
     const navigate = useNavigate()
     const handleDetailsProduct = (id) => {
         navigate(`/product-details/${id}`)
@@ -19,6 +19,7 @@ const CardComponent = (props) => {
             bodyStyle={{ padding: '10px' }}
             cover={<img alt="example" src={image} />}
             onClick={() =>  handleDetailsProduct(id)}
+            className={className}
         >
             <img
                 src={logo}
@@ -31,7 +32,7 @@ const CardComponent = (props) => {
                     borderTopLeftRadius: '3px'
                 }}
             />
-            <StyleNameProduct>{name}</StyleNameProduct>
+            <StyleNameProduct className="line-clamp-2">{name}</StyleNameProduct>
             <WrapperReportText>
                 <span style={{ marginRight: '4px' }}>
                     <span>{rating} </span> <StarFilled style={{ fontSize: '12px', color: 'rgb(253, 216, 54)' }} />

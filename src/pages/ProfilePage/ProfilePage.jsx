@@ -79,7 +79,7 @@ const ProfilePage = () => {
         mutation.mutate({ id: user?.id, email, name, phone, address, avatar, access_token: user?.access_token })
     }
     return (
-        <div className="lg:w-[1270px] mx-auto h-[500px]">
+        <div className="lg:w-[1050px] mx-auto h-[500px]">
             <h5 className="text-md p-4 my-4 bg-white rounded-lg" >
                 <span className="cursor-pointer font-bold" onClick={() => {navigate('/')}}>Trang chủ</span> » Thông tin người dùng
             </h5>

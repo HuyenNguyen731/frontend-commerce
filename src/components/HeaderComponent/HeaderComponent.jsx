@@ -81,7 +81,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
 
     return (
         <div className="h-full w-full flex justify-center" style={{ background: "linear-gradient(-180deg, #f53d2d, #f63)" }}>
-            <div className="grid grid-cols-12 py-[16px] w-[1270px]">
+            <div className="grid grid-cols-12 py-[16px] w-[1058px]">
                 <div className="lg:col-span-3 col-span-4">
                     <WrapperTextHeader to='/'>
                         <img src={logo} alt="logo" className="h-[40px]"/>

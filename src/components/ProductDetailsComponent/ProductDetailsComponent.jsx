@@ -219,7 +219,7 @@ const ProductDetailsComponent = ({idProduct}) => {
                 {/*        : window.location.href*/}
                 {/*    }*/}
                 {/*style={{ padding: '16px', background: '#fff', borderRadius: '4px', marginTop: 16}}>*/}
-                {/*    width="1270"*/}
+                {/*    width="1058"*/}
                 {/*/>*/}
             </Row>
 

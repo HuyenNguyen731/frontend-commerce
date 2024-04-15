@@ -11,6 +11,9 @@ import CardComponent from "../../components/CardComponent/CardComponent";
 import SliderComponent from "../../components/SilderComponent/SilderComponent";
 import { WrapperButtonMore, WrapperProducts, WrapperTypeProduct } from "./style";
 import Loading from "../../components/LoadingComponent/Loading";
+import { WrapperSliderStyle } from "../../components/SilderComponent/style";
+import { Divider } from "antd";
+import BrandComponent from "../../components/BrandComponent/BrandComponent";
 
 const HomePage = () => {
     const searchProduct = useSelector((state) => state?.product?.search)
@@ -22,14 +25,21 @@ const HomePage = () => {
         const limit = context?.queryKey && context?.queryKey[1]
         const search = context?.queryKey && context?.queryKey[2]
         const res = await ProductService.getAllProduct(search, limit)
-        return res
+
+        const productList = res.data
+        const bestSellerList = [...productList].sort((a, b) => b.sold - a.sold).slice(0, 8)
+        const discountList = [...productList].sort((a, b) => b.discount - a.discount).slice(0, 3)
+
+        return { productList, bestSellerList, discountList }
     }
 
     const { isLoading, data: products, isPreviousData } = useQuery({
         queryKey: ['products', limit, searchDebounce],
         queryFn: fetchProductAll,
-        config: { retry: 3, retryDelay: 1000, keepPreviousData: true }}
+        config: { retry: 3, retryDelay: 1000, keepPreviousData: true }},
     )
+
+    console.log(products)
 
     const fetchAllTypeProduct = async () => {
         const res = await ProductService.getAllTypeProduct()
@@ -42,22 +52,104 @@ const HomePage = () => {
         fetchAllTypeProduct()
     }, [])
 
+    const settings= {
+        className: "center",
+        centerMode: true,
+        infinite: true,
+        centerPadding: "80px",
+        slidesToShow: 4,
+        speed: 500,
+    };
+
+    const settingsDiscount= {
+        className: "slider variable-width",
+        centerMode: true,
+        slidesToShow: 3,
+        centerPadding: "10px",
+        variableWidth: true
+    };
+
     return (
-        <div className='body w-full bg-[#efefef]'>
-            <div id="container" className="lg:w-[1270px] w-full my-0 mx-auto py-5" >
+        <div className='body w-full bg-[#f8f2ea]'>
+            <div id="container" className="lg:w-[1090px] w-full my-0 mx-auto p-5" >
                 <SliderComponent arrImages={[slider1, slider2, slider3]} />
-                <Loading isLoading={isLoading}>
-                    <div style={{ backgroundColor: "white", marginTop: "16px" }}>
-                        <WrapperTypeProduct>
-                            {typeProducts.map((item) => {
+                <div className="bg-white mt-5">
+                    <WrapperTypeProduct>
+                        {typeProducts.map((item) => {
+                            return (
+                                <TypeProduct name={item} key={item}/>
+                            )
+                        })}
+                    </WrapperTypeProduct>
+                </div>
+                <div className="bg-gradient-to-r to-[#f8e6d6] from-[#f8e5d5] mt-10 rounded-2xl py-8 w-full">
+                    <div className="ml-10 font-semibold text-[16px] mb-5 mr-2 text-red-800">
+                        SẢN PHẨM BÁN CHẠY
+                        <span className="text-orange-700 text-[11px] ml-3 px-4 py-1 bg-red-200 rounded-2xl">best-seller</span>
+                    </div>
+                    <Divider className="mt-2"/>
+                    <Loading isLoading={isLoading}>
+                        <div className="slider-container px-6">
+                            <WrapperSliderStyle {...settings}>
+                                {products?.bestSellerList?.map((product) => {
+                                    return (
+                                        <CardComponent
+                                            key={product._id}
+                                            countInStock={product.countInStock}
+                                            description={product.description}
+                                            image={product.image}
+                                            name={product.name}
+                                            price={product.price}
+                                            rating={product.rating}
+                                            type={product.type}
+                                            sold={product.sold}
+                                            discount={product.discount}
+                                            id={product._id}
+                                        />
+                                    )
+                                })}
+                            </WrapperSliderStyle>
+                        </div>
+                    </Loading>
+                </div>
+                <BrandComponent />
+                <div className="bg-gradient-to-r from-[#ccdeb9] to-[#d7e5c8] mt-10 rounded-2xl py-8 w-full">
+                    <div className="ml-10 font-semibold text-[16px] mb-5 mr-2 text-green-800">
+                        SẢN PHẨM GIẢM GIÁ
+                        <span className="text-red-700 text-[11px] ml-3 px-4 py-1 bg-red-200 rounded-2xl">Sale!!!</span>
+                    </div>
+                    <Divider className="mt-2"/>
+                    <Loading isLoading={isLoading}>
+                        <div className="slider-container px-6">
+                            <WrapperSliderStyle {...settingsDiscount}>
+                                {products?.discountList?.map((product) => {
                                 return (
-                                    <TypeProduct name={item} key={item}/>
+                                    <CardComponent
+                                        key={product._id}
+                                        countInStock={product.countInStock}
+                                        description={product.description}
+                                        image={product.image}
+                                        name={product.name}
+                                        price={product.price}
+                                        rating={product.rating}
+                                        type={product.type}
+                                        sold={product.sold}
+                                        discount={product.discount}
+                                        id={product._id}
+                                        className="mr-8"
+                                    />
                                 )
                             })}
-                        </WrapperTypeProduct>
+                            </WrapperSliderStyle>
+                        </div>
+                    </Loading>
+                </div>
+                <Loading isLoading={isLoading}>
+                    <div className=" font-semibold text-[16px] mt-10 mb-4">
+                        GỢI Ý HÔM NAY
                     </div>
                     <WrapperProducts>
-                        {products?.data?.map((product) => {
+                        {products?.productList?.map((product) => {
                             return (
                                 <CardComponent
                                     key={product._id}
