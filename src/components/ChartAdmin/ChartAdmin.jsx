@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { orderConstant } from "../../constant";
 import PieChartComponent from "./PieChart";
 
-const OrderAdmin = () => {
+const ChartAdmin = () => {
   const user = useSelector((state) => state?.user);
 
   const getAllOrder = async () => {
@@ -144,19 +144,19 @@ const OrderAdmin = () => {
 
   return (
     <div>
-      <WrapperHeader>Quản lý đơn hàng</WrapperHeader>
-      {/* <div style={{height: 200, width:200}}>
-                <PieChartComponent data={orders?.data} />
-            </div> */}
-      <div style={{ marginTop: "20px" }}>
+      <WrapperHeader>Báo cáo thống kê</WrapperHeader>
+      <div style={{ height: 200, width: 200 }}>
+        <PieChartComponent data={orders?.data} />
+      </div>
+      {/* <div style={{ marginTop: "20px" }}>
         <TableComponent
           columns={columns}
           isLoading={isLoadingOrders}
           data={dataTable}
         />
-      </div>
+      </div> */}
     </div>
   );
 };
 
-export default OrderAdmin;
+export default ChartAdmin;
