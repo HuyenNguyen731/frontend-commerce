@@ -1,25 +1,26 @@
 import { Menu } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { getItem } from "../../utils";
 import {
   UserOutlined,
   AppstoreOutlined,
   ShoppingCartOutlined,
   LineChartOutlined,
+  BorderInnerOutlined,
 } from "@ant-design/icons";
-import { useSelector } from "react-redux";
 import HeaderComponent from "../../components/HeaderComponent/HeaderComponent";
 import OrderAdmin from "../../components/OrderAdmin/OrderAdmin";
 import AdminUser from "../../components/AdminUser/AdminUser";
 import AdminProduct from "../../components/AdminProduct/AdminProduct";
 import ChartAdmin from "../../components/ChartAdmin/ChartAdmin";
+import AdminCategory from "../../components/AdminCategory/AdminCategory";
 
 const AdminPage = () => {
   const [keySelected, setKeySelected] = useState("users");
-  const user = useSelector((state) => state?.user);
 
   const menubar = [
     getItem("Người dùng", "users", <UserOutlined />),
+    getItem("Danh mục sản phẩm", "category", <BorderInnerOutlined />),
     getItem("Sản phẩm", "products", <AppstoreOutlined />),
     getItem("Đơn hàng", "orders", <ShoppingCartOutlined />),
     getItem("Báo cáo thống kê", "chart", <LineChartOutlined />),
@@ -33,6 +34,8 @@ const AdminPage = () => {
     switch (key) {
       case "users":
         return <AdminUser />;
+      case "category":
+        return <AdminCategory />;
       case "products":
         return <AdminProduct />;
       case "orders":

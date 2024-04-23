@@ -9,7 +9,9 @@ const TableComponent = (props) => {
         data:dataSource = [],
         isLoading = false,
         columns = [],
-        handleDeleteMany } = props
+        handleDeleteMany,
+        isExport = true,
+    } = props
 
     const [rowSelectedKeys, setRowSelectedKeys] = useState([])
     const newColumnExport = useMemo(() => {
@@ -45,7 +47,7 @@ const TableComponent = (props) => {
     return (
         <Loading isLoading={isLoading}>
             <div style={{display: "flex", gap: "6px", margin: "16px", marginLeft: 0}}>
-                <Button onClick={exportExcel}>Export Excel</Button>
+                {isExport && <Button onClick={exportExcel}>Export Excel</Button>}
                 {!!rowSelectedKeys.length && (
                     <Button onClick={handleDeleteAll} danger> Xóa tất cả</Button>
                 )}

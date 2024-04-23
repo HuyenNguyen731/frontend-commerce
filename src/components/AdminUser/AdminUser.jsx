@@ -21,7 +21,7 @@ const AdminUser = () => {
     const user = useSelector((state) => state?.user)
 
     const getAllUsers = async () => {
-        const res = await UserService.getAllUser()
+        const res = await UserService.getAllUser(user?.access_token)
         return res
     }
 
@@ -210,8 +210,10 @@ const AdminUser = () => {
     }
 
     return (
-        <div>
-            <WrapperHeader>Quản lý người dùng</WrapperHeader>
+        <div className="pr-10 pl-4">
+             <div className="text-black text-[16px] font-semibold">
+                <span className="font-normal">Quản lý</span> / Người dùng
+            </div>
             <div style={{ marginTop: '20px' }}>
                 <TableComponent
                     handleDeleteMany={handleDeleteManyUsers}
