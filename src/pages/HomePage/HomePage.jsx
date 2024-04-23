@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { useDebounce } from "../../hooks/useDebounce";
 import * as ProductService from "../../services/ProductService";
+import * as CategoryService from "../../services/CategoryService";
 import TypeProduct from "../../components/TypeProduct/TypeProduct";
 import CardComponent from "../../components/CardComponent/CardComponent";
 import SliderComponent from "../../components/SilderComponent/SilderComponent";
@@ -39,14 +40,12 @@ const HomePage = () => {
         config: { retry: 3, retryDelay: 1000, keepPreviousData: true }},
     )
 
-    console.log(products)
-
     const fetchAllTypeProduct = async () => {
-        const res = await ProductService.getAllTypeProduct()
+        const res = await CategoryService.getAllCategory();
         if(res?.status === 'OK') {
             setTypeProducts(res?.data)
         }
-    }
+    };
 
     useEffect(() => {
         fetchAllTypeProduct()
@@ -77,7 +76,7 @@ const HomePage = () => {
                     <WrapperTypeProduct>
                         {typeProducts.map((item) => {
                             return (
-                                <TypeProduct name={item} key={item}/>
+                                <TypeProduct name={item?.name} id={item?._id} key={item?._id}/>
                             )
                         })}
                     </WrapperTypeProduct>
