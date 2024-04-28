@@ -1,20 +1,20 @@
-import { Button, Space } from "antd";
-import React from "react";
-import { WrapperHeader } from "./style";
+import React, { useState } from "react";
+import { Button, Space, Tag } from "antd";
 import TableComponent from "../TableComponent/TableComponent";
 import InputComponent from "../InputComponent/InputComponent";
 import { convertPrice } from "../../utils";
-
 import * as OrderService from "../../services/OrderService";
 import { useQuery } from "@tanstack/react-query";
 import { SearchOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { orderConstant } from "../../constant";
-import PieChartComponent from "./PieChart";
+import dayjs from "dayjs";
+import ModalUpdate from "./ModalUpdate";
 
 const OrderAdmin = () => {
   const user = useSelector((state) => state?.user);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
   const getAllOrder = async () => {
     const res = await OrderService.getAllOrder(user?.access_token);
     return res;
@@ -75,54 +75,49 @@ const OrderAdmin = () => {
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
   });
 
+  const statusList = (status) => {
+    switch (status) {
+      case "pending":
+        return <Tag color="orange">Chờ lấy hàng</Tag>;
+      case "in-progress":
+        return <Tag color="blue">Đang giao hàng</Tag>;
+      case "cancel":
+        return <Tag color="red">Đã hủy</Tag>;
+      case "completed":
+        return <Tag color="green">Đã hoàn thành</Tag>;
+      default:
+        return null;
+    }
+  };
+
   const columns = [
-    {
-      title: "User name",
-      dataIndex: "userName",
-      sorter: (a, b) => a.userName.length - b.userName.length,
-      ...getColumnSearchProps("userName"),
-    },
     {
       title: "Create At",
       dataIndex: "updatedAt",
       sorter: (a, b) => a.updatedAt.length - b.updatedAt.length,
+      render: (updatedAt) => dayjs(updatedAt).format("DD/MM/YYYY HH:mm"),
       ...getColumnSearchProps("updatedAt"),
-    },
-    {
-      title: "Phone",
-      dataIndex: "phone",
-      sorter: (a, b) => a.phone.length - b.phone.length,
-      ...getColumnSearchProps("phone"),
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
-      sorter: (a, b) => a.address.length - b.address.length,
-      ...getColumnSearchProps("address"),
     },
     {
       title: "Paided",
       dataIndex: "isPaid",
-      sorter: (a, b) => a.isPaid.length - b.isPaid.length,
       ...getColumnSearchProps("isPaid"),
-    },
-    {
-      title: "Shipped",
-      dataIndex: "isDelivered",
-      sorter: (a, b) => a.isDelivered.length - b.isDelivered.length,
-      ...getColumnSearchProps("isDelivered"),
     },
     {
       title: "Payment method",
       dataIndex: "paymentMethod",
-      sorter: (a, b) => a.paymentMethod.length - b.paymentMethod.length,
       ...getColumnSearchProps("paymentMethod"),
     },
     {
       title: "Total price",
       dataIndex: "totalPrice",
-      sorter: (a, b) => a.totalPrice.length - b.totalPrice.length,
       ...getColumnSearchProps("totalPrice"),
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      ...getColumnSearchProps("status"),
+      render: (status) => statusList(status),
     },
   ];
 
@@ -143,18 +138,31 @@ const OrderAdmin = () => {
     });
 
   return (
-    <div>
-      <WrapperHeader>Quản lý đơn hàng</WrapperHeader>
-      {/* <div style={{height: 200, width:200}}>
-                <PieChartComponent data={orders?.data} />
-            </div> */}
+    <div className="pr-10 pl-4">
+      <div className="text-[16px] font-semibold">
+        <span className="font-normal">Quản lý</span> / Sản phẩm
+      </div>
       <div style={{ marginTop: "20px" }}>
         <TableComponent
           columns={columns}
           isLoading={isLoadingOrders}
           data={dataTable}
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                setSelectedOrderId(record._id);
+                setIsModalOpen(true);
+              },
+            };
+          }}
         />
       </div>
+      <ModalUpdate
+        isOpen={isModalOpen}
+        orderId={selectedOrderId}
+        setIsModalOpen={setIsModalOpen}
+        token={user.access_token}
+      />
     </div>
   );
 };

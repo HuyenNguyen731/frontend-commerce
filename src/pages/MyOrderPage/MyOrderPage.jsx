@@ -73,33 +73,48 @@ const MyOrderPage = () => {
                     <div className="bg-white rounded-lg py-4 px-10">
                         <Tabs defaultActiveKey="1">
                             <Tabs.TabPane tab="Chờ lấy hàng" key="1">
-                                <OrderList
-                                    orders={data?.filter(order => order?.status === 'pending')}
-                                    handleCancelOrder={handleCancelOrder}
-                                    handleDetailsOrder={handleDetailsOrder}
-                                />
-                                <Empty />
+                                {
+                                    data?.filter(order => order?.status === 'pending').length > 0 ? (
+                                        <OrderList
+                                            orders={data?.filter(order => order?.status === 'pending')}
+                                            handleCancelOrder={handleCancelOrder}
+                                            handleDetailsOrder={handleDetailsOrder}
+                                        />
+                                    ) : (<Empty />)
+                                }
                             </Tabs.TabPane>
                             <Tabs.TabPane tab="Đang giao hàng" key="2">
-                                <OrderList
-                                    orders={data?.filter(order => order?.status === 'in-progress')}
-                                    handleCancelOrder={handleCancelOrder}
-                                    handleDetailsOrder={handleDetailsOrder}
-                                />
+                                {
+                                    data?.filter(order => order?.status === 'in-progress').length > 0 ? (
+                                        <OrderList
+                                            orders={data?.filter(order => order?.status === 'in-progress')}
+                                            handleCancelOrder={handleCancelOrder}
+                                            handleDetailsOrder={handleDetailsOrder}
+                                        />
+                                    ) : (<Empty />)
+                                }
                             </Tabs.TabPane>
                             <Tabs.TabPane tab="Đã giao hàng" key="3">
-                                <OrderList
-                                    orders={data?.filter(order => order?.status === 'completed')}
-                                    handleCancelOrder={handleCancelOrder}
-                                    handleDetailsOrder={handleDetailsOrder}
-                                />
+                                {
+                                    data?.filter(order => order?.status === 'completed').length > 0 ? (
+                                        <OrderList
+                                            orders={data?.filter(order => order?.status === 'completed')}
+                                            handleCancelOrder={handleCancelOrder}
+                                            handleDetailsOrder={handleDetailsOrder}
+                                        />
+                                    ) : (<Empty />)
+                                }
                             </Tabs.TabPane>
                             <Tabs.TabPane tab="Đã hủy" key="4">
-                                <OrderList
-                                    orders={data?.filter(order => order?.status === 'cancel')}
-                                    handleCancelOrder={handleCancelOrder}
-                                    handleDetailsOrder={handleDetailsOrder}
-                                />
+                                {
+                                    data?.filter(order => order?.status === 'cancel').length > 0 ? (
+                                        <OrderList
+                                            orders={data?.filter(order => order?.status === 'cancel')}
+                                            handleCancelOrder={handleCancelOrder}
+                                            handleDetailsOrder={handleDetailsOrder}
+                                        />
+                                    ) : (<Empty />)
+                                }
                             </Tabs.TabPane>
                         </Tabs>
                     </div>
