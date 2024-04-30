@@ -111,7 +111,6 @@ const PaymentPage = () => {
           totalPrice: totalPriceMemo,
           user: user?.id,
           email: user?.email,
-          status: "in-progress",
         },
         {
           onSuccess: () => {
