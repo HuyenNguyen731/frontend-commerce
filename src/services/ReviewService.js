@@ -23,9 +23,10 @@ export const getAllReview = async () => {
   return res.data;
 };
 
-export const deleteReview = async (id, access_token) => {
-  const res = await axiosJWT.delete(
+export const hiddenReview = async (id, access_token, data) => {
+  const res = await axiosJWT.put(
     `${process.env.REACT_APP_API_URL}/review/delete/${id}`,
+    data,
     {
       headers: {
         token: `Bearer ${access_token}`,

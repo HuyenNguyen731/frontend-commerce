@@ -7,6 +7,7 @@ import {
   ShoppingCartOutlined,
   LineChartOutlined,
   BorderInnerOutlined,
+  StarOutlined,
 } from "@ant-design/icons";
 import HeaderComponent from "../../components/HeaderComponent/HeaderComponent";
 import OrderAdmin from "../../components/OrderAdmin/OrderAdmin";
@@ -14,6 +15,7 @@ import AdminUser from "../../components/AdminUser/AdminUser";
 import AdminProduct from "../../components/AdminProduct/AdminProduct";
 import ChartAdmin from "../../components/ChartAdmin/ChartAdmin";
 import AdminCategory from "../../components/AdminCategory/AdminCategory";
+import ReviewAdmin from "../../components/ReviewAdmin/ReviewAdmin";
 
 const AdminPage = () => {
   const [keySelected, setKeySelected] = useState("users");
@@ -23,6 +25,7 @@ const AdminPage = () => {
     getItem("Danh mục sản phẩm", "category", <BorderInnerOutlined />),
     getItem("Sản phẩm", "products", <AppstoreOutlined />),
     getItem("Đơn hàng", "orders", <ShoppingCartOutlined />),
+    getItem("Đánh giá sản phẩm", "reviews", <StarOutlined />),
     getItem("Báo cáo thống kê", "chart", <LineChartOutlined />),
   ];
 
@@ -40,6 +43,8 @@ const AdminPage = () => {
         return <AdminProduct />;
       case "orders":
         return <OrderAdmin />;
+      case "reviews":
+        return <ReviewAdmin />;
       case "chart":
         return <ChartAdmin />;
       default:
