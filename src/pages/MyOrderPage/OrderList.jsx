@@ -20,6 +20,7 @@ const OrderList = ({
   orders,
   handleCancelOrder,
   handleDetailsOrder,
+  handleRefundOrder,
   userId,
   token,
 }) => {
@@ -180,7 +181,7 @@ const OrderList = ({
                   <ButtonComponent
                     size={40}
                     textbutton={"Yêu cầu trả hàng"}
-                    onClick={() => handleCancelOrder(order)}
+                    onClick={() => handleRefundOrder(order)}
                     styleTextButton={{ color: "#ff6633", fontSize: "14px" }}
                     styleButton={{
                       height: "36px",

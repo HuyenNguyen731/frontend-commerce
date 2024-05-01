@@ -21,11 +21,11 @@ const AdminPage = () => {
   const [keySelected, setKeySelected] = useState("users");
 
   const menubar = [
-    getItem("Người dùng", "users", <UserOutlined />),
     getItem("Danh mục sản phẩm", "category", <BorderInnerOutlined />),
     getItem("Sản phẩm", "products", <AppstoreOutlined />),
     getItem("Đơn hàng", "orders", <ShoppingCartOutlined />),
     getItem("Đánh giá sản phẩm", "reviews", <StarOutlined />),
+    getItem("Người dùng", "users", <UserOutlined />),
     getItem("Báo cáo thống kê", "chart", <LineChartOutlined />),
   ];
 
@@ -70,8 +70,8 @@ const AdminPage = () => {
           }}
           items={menubar}
           onClick={handleOnCLick}
-          defaultSelectedKeys={["users"]}
-          defaultOpenKeys={["users"]}
+          defaultSelectedKeys={["category"]}
+          defaultOpenKeys={["category"]}
         />
         <div
           style={{ flex: 1, padding: "15px 0 15px 15px", overflowY: "auto" }}

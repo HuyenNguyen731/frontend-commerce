@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Image, Rate, Row } from "antd";
+import { Col, Divider, Image, Rate, Row } from "antd";
 import {
   WrapperAddressProduct,
   WrapperInputNumber,
@@ -17,6 +17,7 @@ import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
 import { useQuery } from "@tanstack/react-query";
 import * as ProductService from "../../services/ProductService";
+import * as ReviewService from "../../services/ReviewService";
 import Loading from "../LoadingComponent/Loading";
 import { convertPrice, initFacebookSDK } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,11 +43,24 @@ const ProductDetailsComponent = ({ idProduct }) => {
     }
   };
 
+  const fetchGetReviewsProduct = async () => {
+    const res = await ReviewService.getReviewById(idProduct);
+    return res;
+  };
+
   const { isLoading, data: productDetails } = useQuery({
     queryKey: ["product-details", idProduct],
     queryFn: fetchGetDetailsProduct,
     config: { enabled: !!idProduct },
   });
+
+  const { isLoading: isLoadingReview, data: reviews } = useQuery({
+    queryKey: ["reviews", idProduct],
+    queryFn: fetchGetReviewsProduct,
+    config: { enabled: !!idProduct },
+  });
+
+  console.log(reviews, "review");
 
   const onChange = (value) => {
     setNumProduct(Number(value));
@@ -320,6 +334,7 @@ const ProductDetailsComponent = ({ idProduct }) => {
       <div className="my-5 rounded-md">
         <div className="p-4 bg-white">
           <div className="text-[16px] font-medium mt-3">CHI TIẾT SẢN PHẨM</div>
+          <Divider />
           <div className="text-md">
             {productDetails?.description}
             Xuất xứ: Ba Lan
@@ -339,17 +354,6 @@ const ProductDetailsComponent = ({ idProduct }) => {
             sáng mịn và đều màu da. Sản phẩm chứa 97% nguồn gốc từ các chiết
             xuất thực vật lành tính. <br />
             – BAKUCHIOL <br />
-            – một thành phần thảo mộc có tác dụng tương tự như Retinol nhưng hạn
-            chế nguy cơ kích ứng, có thể dùng được cho bà bầu, cho con bú và sử
-            dụng được cả ban ngày. Hoàn toàn kết hợp được với AHA, BHA mà không
-            lo kích ứng. Kết hợp hoàn hảo với Retinol để tăng cường kích thích
-            sản xuất Retinol tự thân. → Giúp hỗ trợ giảm mụn, chống lão hoá, cải
-            thiện sắc tố da, mờ thâm, nám, tàn nhang, hiệu quả cao trong việc
-            kích thích tái tạo và phục hồi tế bào da, làm mịn và khoẻ da. <br />
-            – GINKGO BILOBA: tăng tuần hoàn máu dưới da cho da hồng hào khỏe
-            mạnh, giúp cải thiện độ săn chắc và đàn hồi của da, nâng tông da,
-            kích thích sản sinh Hyaluronic Acid – cung cấp độ ẩm và làm da căng
-            bóng. <br />
             – AMERICAN BLUEBERRY <br />
             – chất chống oxy hóa mạnh với hàm lượng vitamin C cao, làm mịn và
             cải thiện tông da, làm sáng da hiệu quả. <br />
@@ -366,7 +370,41 @@ const ProductDetailsComponent = ({ idProduct }) => {
       <div className="my-5 rounded-md">
         <div className="p-4 bg-white">
           <div className="text-[16px] font-medium mt-3">ĐÁNH GIÁ</div>
-          <div> Chưa có đánh giá nào</div>
+          <Divider />
+          {reviews?.data?.length > 0 ? (
+            <div>
+              {reviews?.data?.map((review) => (
+                <div>
+                  {!review?.delete && (
+                    <div className="mb-8">
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={review?.user_id?.avatar}
+                          style={{
+                            height: "45px",
+                            width: "45px",
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                            marginLeft: "10px",
+                          }}
+                          alt={`avatar ${review?.user_id?.name}`}
+                        />
+                        <div>
+                          <div className="font-semibold">
+                            {review?.user_id?.name}
+                          </div>
+                          <Rate defaultValue={review?.rate} disabled />
+                        </div>
+                      </div>
+                      <div className="ml-[67px]">{review?.note}</div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div> Chưa có đánh giá nào</div>
+          )}
         </div>
       </div>
     </Loading>

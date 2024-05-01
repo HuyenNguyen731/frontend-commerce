@@ -2,8 +2,9 @@ import React from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { convertDataChart } from "../../utils";
 
-const PieChartComponent = (props) => {
-  const data = convertDataChart(props.data, "paymentMethod");
+const PieChartComponent2 = (props) => {
+  console.log(props, "pro");
+  const data = convertDataChart(props.data, "status");
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#b0afae"];
 
   const RADIAN = Math.PI / 180;
@@ -60,4 +61,4 @@ const PieChartComponent = (props) => {
   );
 };
 
-export default PieChartComponent;
+export default PieChartComponent2;

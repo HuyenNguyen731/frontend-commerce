@@ -23,6 +23,13 @@ export const getAllReview = async () => {
   return res.data;
 };
 
+export const getReviewById = async (id) => {
+  const res = await axiosJWT.get(
+    `${process.env.REACT_APP_API_URL}/review/get-review-by-id/${id}`
+  );
+  return res.data;
+};
+
 export const hiddenReview = async (id, access_token, data) => {
   const res = await axiosJWT.put(
     `${process.env.REACT_APP_API_URL}/review/delete/${id}`,

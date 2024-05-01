@@ -1,16 +1,12 @@
 import { Button, Space } from "antd";
 import React from "react";
 import { WrapperHeader } from "./style";
-import TableComponent from "../TableComponent/TableComponent";
-import InputComponent from "../InputComponent/InputComponent";
-import { convertPrice } from "../../utils";
 
 import * as OrderService from "../../services/OrderService";
 import { useQuery } from "@tanstack/react-query";
-import { SearchOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
-import { orderConstant } from "../../constant";
 import PieChartComponent from "./PieChart";
+import PieChartComponent2 from "./PieChart2";
 
 const ChartAdmin = () => {
   const user = useSelector((state) => state?.user);
@@ -20,141 +16,53 @@ const ChartAdmin = () => {
     return res;
   };
 
-  const queryOrder = useQuery({ queryKey: ["orders"], queryFn: getAllOrder });
-  const { isLoading: isLoadingOrders, data: orders } = queryOrder;
-
-  const getColumnSearchProps = (dataIndex) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys }) => (
-      <div
-        style={{
-          padding: 8,
-        }}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <InputComponent
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={(e) =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          style={{
-            marginBottom: 8,
-            display: "block",
-          }}
-        />
-        <Space>
-          <Button
-            type="primary"
-            icon={<SearchOutlined />}
-            size="small"
-            style={{
-              width: 90,
-            }}
-          >
-            Search
-          </Button>
-          <Button
-            size="small"
-            style={{
-              width: 90,
-            }}
-          >
-            Reset
-          </Button>
-        </Space>
-      </div>
-    ),
-    filterIcon: (filtered) => (
-      <SearchOutlined
-        style={{
-          color: filtered ? "#1890ff" : undefined,
-        }}
-      />
-    ),
-    onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+  const { data: orders } = useQuery({
+    queryKey: ["orders"],
+    queryFn: getAllOrder,
   });
-
-  const columns = [
-    {
-      title: "User name",
-      dataIndex: "userName",
-      sorter: (a, b) => a.userName.length - b.userName.length,
-      ...getColumnSearchProps("userName"),
-    },
-    {
-      title: "Create At",
-      dataIndex: "updatedAt",
-      sorter: (a, b) => a.updatedAt.length - b.updatedAt.length,
-      ...getColumnSearchProps("updatedAt"),
-    },
-    {
-      title: "Phone",
-      dataIndex: "phone",
-      sorter: (a, b) => a.phone.length - b.phone.length,
-      ...getColumnSearchProps("phone"),
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
-      sorter: (a, b) => a.address.length - b.address.length,
-      ...getColumnSearchProps("address"),
-    },
-    {
-      title: "Paided",
-      dataIndex: "isPaid",
-      sorter: (a, b) => a.isPaid.length - b.isPaid.length,
-      ...getColumnSearchProps("isPaid"),
-    },
-    {
-      title: "Shipped",
-      dataIndex: "isDelivered",
-      sorter: (a, b) => a.isDelivered.length - b.isDelivered.length,
-      ...getColumnSearchProps("isDelivered"),
-    },
-    {
-      title: "Payment method",
-      dataIndex: "paymentMethod",
-      sorter: (a, b) => a.paymentMethod.length - b.paymentMethod.length,
-      ...getColumnSearchProps("paymentMethod"),
-    },
-    {
-      title: "Total price",
-      dataIndex: "totalPrice",
-      sorter: (a, b) => a.totalPrice.length - b.totalPrice.length,
-      ...getColumnSearchProps("totalPrice"),
-    },
-  ];
-
-  const dataTable =
-    orders?.data?.length &&
-    orders?.data?.map((order) => {
-      return {
-        ...order,
-        key: order._id,
-        userName: order?.shippingAddress?.fullName,
-        phone: order?.shippingAddress?.phone,
-        address: order?.shippingAddress?.address,
-        paymentMethod: orderConstant.payment[order?.paymentMethod],
-        isPaid: order?.isPaid ? "TRUE" : "FALSE",
-        isDelivered: order?.isDelivered ? "TRUE" : "FALSE",
-        totalPrice: convertPrice(order?.totalPrice),
-      };
-    });
 
   return (
     <div>
       <WrapperHeader>Báo cáo thống kê</WrapperHeader>
-      <div style={{ height: 200, width: 200 }}>
-        <PieChartComponent data={orders?.data} />
+      <div className="flex items-center">
+        <div className="w-[250px] h-[200px] ">
+          <PieChartComponent data={orders?.data} />
+        </div>
+        <div>
+          <div className="flex gap-4 mb-4">
+            <div className="bg-[#0088FE] w-10 h-10"></div>
+            Thanh toán bằng tiền mặt
+          </div>
+          <div className="flex gap-4">
+            <div className="bg-[#00C49F] w-10 h-10"></div>
+            Thanh toán bằng paypal
+          </div>
+        </div>
       </div>
-      {/* <div style={{ marginTop: "20px" }}>
-        <TableComponent
-          columns={columns}
-          isLoading={isLoadingOrders}
-          data={dataTable}
-        />
-      </div> */}
+      <div className="flex items-center">
+        <div className="w-[250px] h-[200px] ">
+          <PieChartComponent2 data={orders?.data} />
+        </div>
+        {/* //"#FFBB28", "#FF8042", "#b0afae" */}
+        <div>
+          <div className="flex gap-4 mb-4">
+            <div className="bg-[#FFBB28] w-10 h-10"></div>
+            Đang giao
+          </div>
+          <div className="flex gap-4 mb-4">
+            <div className="bg-[#FF8042] w-10 h-10"></div>
+            Đã hủy
+          </div>
+          <div className="flex gap-4 mb-4">
+            <div className="bg-[#0088FE] w-10 h-10"></div>
+            Đang chuẩn bị hàng
+          </div>
+          <div className="flex gap-4">
+            <div className="bg-[#00C49F] w-10 h-10"></div>
+            Hoàn thành
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
