@@ -64,7 +64,7 @@ const AdminCategory = () => {
       {
         onSuccess: () => {
           message.success();
-          closeModalCreate();
+          closeModalDelete();
           queryClient.invalidateQueries(["categories"]);
         },
         onError: (error) => {

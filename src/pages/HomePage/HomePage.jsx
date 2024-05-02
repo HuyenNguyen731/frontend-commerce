@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { useDebounce } from "../../hooks/useDebounce";
 import * as ProductService from "../../services/ProductService";
 import * as CategoryService from "../../services/CategoryService";
+import * as BannerService from "../../services/BannerService";
 import TypeProduct from "../../components/TypeProduct/TypeProduct";
 import CardComponent from "../../components/CardComponent/CardComponent";
 import SliderComponent from "../../components/SilderComponent/SilderComponent";
@@ -21,6 +22,11 @@ const HomePage = () => {
     const searchDebounce = useDebounce(searchProduct, 500)
     const [limit, setLimit] = useState(12)
     const [typeProducts, setTypeProducts] = useState([])
+
+    const fetchBannerAll = async () => {
+        const res = await BannerService.getAllBanner();
+        return res;
+    };
 
     const fetchProductAll = async (context) => {
         const limit = context?.queryKey && context?.queryKey[1]
@@ -39,6 +45,12 @@ const HomePage = () => {
         queryFn: fetchProductAll,
         config: { retry: 3, retryDelay: 1000, keepPreviousData: true }},
     )
+
+    const { data: banners } = useQuery({
+        queryKey: ["banners"],
+        queryFn: fetchBannerAll,
+        select: (res) => res?.data?.map(item => item.image)
+    });
 
     const fetchAllTypeProduct = async () => {
         const res = await CategoryService.getAllCategory();
@@ -71,7 +83,7 @@ const HomePage = () => {
     return (
         <div className='body w-full bg-[#f8f2ea]'>
             <div id="container" className="lg:w-[1090px] w-full my-0 mx-auto p-5" >
-                <SliderComponent arrImages={[slider1, slider2, slider3]} />
+                <SliderComponent arrImages={banners} />
                 <div className="bg-white mt-5">
                     <WrapperTypeProduct>
                         {typeProducts.map((item) => {

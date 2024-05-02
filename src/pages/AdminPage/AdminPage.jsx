@@ -9,6 +9,7 @@ import {
   BorderInnerOutlined,
   StarOutlined,
   QuestionCircleOutlined,
+  FileImageOutlined,
 } from "@ant-design/icons";
 import HeaderComponent from "../../components/HeaderComponent/HeaderComponent";
 import OrderAdmin from "../../components/OrderAdmin/OrderAdmin";
@@ -18,11 +19,13 @@ import ChartAdmin from "../../components/ChartAdmin/ChartAdmin";
 import AdminCategory from "../../components/AdminCategory/AdminCategory";
 import ReviewAdmin from "../../components/ReviewAdmin/ReviewAdmin";
 import AdminFeedback from "../../components/AdminFeedback/AdminFeedback";
+import AdminBanner from "../../components/AdminBanner/AdminBanner";
 
 const AdminPage = () => {
   const [keySelected, setKeySelected] = useState("users");
 
   const menubar = [
+    getItem("Banner", "banners", <FileImageOutlined />),
     getItem("Danh mục sản phẩm", "category", <BorderInnerOutlined />),
     getItem("Sản phẩm", "products", <AppstoreOutlined />),
     getItem("Đơn hàng", "orders", <ShoppingCartOutlined />),
@@ -38,8 +41,8 @@ const AdminPage = () => {
 
   const renderPage = (key) => {
     switch (key) {
-      case "users":
-        return <AdminUser />;
+      case "banners":
+        return <AdminBanner />;
       case "category":
         return <AdminCategory />;
       case "products":
@@ -48,6 +51,8 @@ const AdminPage = () => {
         return <OrderAdmin />;
       case "reviews":
         return <ReviewAdmin />;
+      case "users":
+        return <AdminUser />;
       case "chart":
         return <ChartAdmin />;
       case "feedback":
@@ -75,8 +80,8 @@ const AdminPage = () => {
           }}
           items={menubar}
           onClick={handleOnCLick}
-          defaultSelectedKeys={["category"]}
-          defaultOpenKeys={["category"]}
+          defaultSelectedKeys={["banners"]}
+          defaultOpenKeys={["banners"]}
         />
         <div
           style={{ flex: 1, padding: "15px 0 15px 15px", overflowY: "auto" }}
