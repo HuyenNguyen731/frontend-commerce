@@ -8,6 +8,7 @@ import {
   LineChartOutlined,
   BorderInnerOutlined,
   StarOutlined,
+  QuestionCircleOutlined,
 } from "@ant-design/icons";
 import HeaderComponent from "../../components/HeaderComponent/HeaderComponent";
 import OrderAdmin from "../../components/OrderAdmin/OrderAdmin";
@@ -16,6 +17,7 @@ import AdminProduct from "../../components/AdminProduct/AdminProduct";
 import ChartAdmin from "../../components/ChartAdmin/ChartAdmin";
 import AdminCategory from "../../components/AdminCategory/AdminCategory";
 import ReviewAdmin from "../../components/ReviewAdmin/ReviewAdmin";
+import AdminFeedback from "../../components/AdminFeedback/AdminFeedback";
 
 const AdminPage = () => {
   const [keySelected, setKeySelected] = useState("users");
@@ -27,6 +29,7 @@ const AdminPage = () => {
     getItem("Đánh giá sản phẩm", "reviews", <StarOutlined />),
     getItem("Người dùng", "users", <UserOutlined />),
     getItem("Báo cáo thống kê", "chart", <LineChartOutlined />),
+    getItem("Câu hỏi của khách hàng", "feedback", <QuestionCircleOutlined />),
   ];
 
   const handleOnCLick = ({ key }) => {
@@ -47,6 +50,8 @@ const AdminPage = () => {
         return <ReviewAdmin />;
       case "chart":
         return <ChartAdmin />;
+      case "feedback":
+        return <AdminFeedback />;
       default:
         return <></>;
     }
