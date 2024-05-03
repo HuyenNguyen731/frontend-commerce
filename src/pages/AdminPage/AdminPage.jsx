@@ -22,7 +22,7 @@ import AdminFeedback from "../../components/AdminFeedback/AdminFeedback";
 import AdminBanner from "../../components/AdminBanner/AdminBanner";
 
 const AdminPage = () => {
-  const [keySelected, setKeySelected] = useState("users");
+  const [keySelected, setKeySelected] = useState("banners");
 
   const menubar = [
     getItem("Banner", "banners", <FileImageOutlined />),
