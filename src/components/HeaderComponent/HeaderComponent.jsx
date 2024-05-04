@@ -69,7 +69,12 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
             {user?.isAdmin && (
                 <WrapperContentPopup onClick={() => handleClickNavigate('admin')}>Quản lí hệ thống</WrapperContentPopup>
             )}
-            <WrapperContentPopup onClick={() => handleClickNavigate(`my-order`)}>Đơn hàng của tôi</WrapperContentPopup>
+            {user?.role_id === "66263bed3ddec201f5f28e64" && (
+                <WrapperContentPopup onClick={() => handleClickNavigate('admin')}>Quản lí giao hàng</WrapperContentPopup>
+            )}
+            {user?.role_id === "66263bed3ddec201f5f28e64" ? null : (
+                <WrapperContentPopup onClick={() => handleClickNavigate(`my-order`)}>Đơn hàng của tôi</WrapperContentPopup>
+            )}
             <WrapperContentPopup onClick={() => handleClickNavigate()}>Đăng xuất</WrapperContentPopup>
         </div>
     );

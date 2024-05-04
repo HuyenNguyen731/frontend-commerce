@@ -140,7 +140,7 @@ const OrderAdmin = () => {
   return (
     <div className="pr-10 pl-4">
       <div className="text-[16px] font-semibold">
-        <span className="font-normal">Quản lý</span> / Sản phẩm
+        <span className="font-normal">Quản lý</span> / Đơn hàng
       </div>
       <div style={{ marginTop: "20px" }}>
         <TableComponent

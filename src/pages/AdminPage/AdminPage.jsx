@@ -20,9 +20,15 @@ import AdminCategory from "../../components/AdminCategory/AdminCategory";
 import ReviewAdmin from "../../components/ReviewAdmin/ReviewAdmin";
 import AdminFeedback from "../../components/AdminFeedback/AdminFeedback";
 import AdminBanner from "../../components/AdminBanner/AdminBanner";
+import { useSelector } from "react-redux";
 
 const AdminPage = () => {
-  const [keySelected, setKeySelected] = useState("banners");
+  const user = useSelector((state) => state.user)
+  const [keySelected, setKeySelected] = useState(user?.isAdmin ? "banners" : "orders");
+
+  const menubarShipper = [
+    getItem("Đơn hàng", "orders", <ShoppingCartOutlined />),
+  ]
 
   const menubar = [
     getItem("Banner", "banners", <FileImageOutlined />),
@@ -78,10 +84,10 @@ const AdminPage = () => {
             width: 256,
             boxShadow: "1px 1px 2px #ccc",
           }}
-          items={menubar}
+          items={user?.isAdmin ? menubar : menubarShipper}
           onClick={handleOnCLick}
-          defaultSelectedKeys={["banners"]}
-          defaultOpenKeys={["banners"]}
+          defaultSelectedKeys={user?.isAdmin ? ["banners"] : ["orders"]}
+          defaultOpenKeys={user?.isAdmin ? ["banners"] : ["orders"]}
         />
         <div
           style={{ flex: 1, padding: "15px 0 15px 15px", overflowY: "auto" }}
