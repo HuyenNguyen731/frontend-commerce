@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import { convertPrice } from "../../utils";
 import {
   WrapperItemOrder,
@@ -13,6 +12,8 @@ import { Rate, Input, Tag, Modal } from "antd";
 import * as ReviewService from "../../services/ReviewService";
 import * as message from "../../components/Message/Message";
 import { useMutationHooks } from "../../hooks/useMutationHook";
+import { useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
 
 const { TextArea } = Input;
 
@@ -30,6 +31,43 @@ const OrderList = ({
     rate: 0,
     reviewContent: "",
   });
+  const [reviewedProducts, setReviewedProducts] = useState([]);
+
+  const getAllReview = async () => {
+    const res = await ReviewService.getAllReview();
+    return res;
+  };
+
+  const { data: reviews, isLoading } = useQuery({
+    queryKey: ["reviews"],
+    queryFn: getAllReview,
+    select: (res) => res.data,
+  });
+
+  const filteredReviews = () => {
+    return reviews?.filter(
+      (review) =>
+        review?.order_id === selectedOrder?._id &&
+        selectedOrder.orderItems.some(
+          (item) => item?.product === review?.product_id?._id
+        ) &&
+        review.user_id === selectedOrder.user
+    );
+  };
+
+  useEffect(() => {
+    if (!isLoading && selectedOrder) {
+      const filteredData = filteredReviews();
+      const reviewedProducts = filteredData.map(
+        (review) => review.product_id._id
+      );
+      setReviewedProducts(reviewedProducts);
+    }
+  }, [isLoading, selectedOrder, reviews]);
+
+  const isProductReviewed = (productId) => {
+    return reviewedProducts.includes(productId);
+  };
 
   const mutationReview = useMutationHooks((data) => {
     const res = ReviewService.createReview(data);
@@ -53,6 +91,7 @@ const OrderList = ({
             rate: 0,
             reviewContent: "",
           });
+          handleCancel();
         },
         onError: (err) => {
           message.error(err);
@@ -134,9 +173,14 @@ const OrderList = ({
           </WrapperStatus>
           {renderProduct(order?.orderItems)}
           <WrapperFooterItem>
-            <div className="flex justify-between w-full mb-5">
-              <div className="text-gray-400">
-                {order?.orderItems.length} sản phẩm
+            <div className="flex justify-between items-end w-full mb-5">
+              <div>
+                <div className="text-gray-400">
+                  {order?.orderItems.length} sản phẩm
+                </div>
+                <div className="text-gray-400">
+                  {dayjs(order?.createdAt).format("DD/MM/YYYY HH:mm")}
+                </div>
               </div>
               <div>
                 <span className="text-red-500">Tổng thanh toán: </span>
@@ -243,42 +287,51 @@ const OrderList = ({
                     </div>
                   </WrapperHeaderItem>
                   <div className="flex items-end gap-5">
-                    <div className="flex flex-col">
-                      <div className="flex gap-5 items-center">
-                        <div className="text-yellow-500 font-semibold">
-                          Đánh giá chất lượng sản phẩm: {order?.product}
+                    {isProductReviewed(order?.product) ? (
+                      <div className="mt-3">Bạn đã đánh giá sản phẩm này</div>
+                    ) : (
+                      <div className="flex items-end gap-5">
+                        <div className="flex flex-col">
+                          <div className="flex gap-5 items-center">
+                            <div className="text-yellow-500 font-semibold">
+                              Đánh giá chất lượng sản phẩm:
+                            </div>
+                            <Rate
+                              onChange={(rate) =>
+                                setReviewData((prevData) => ({
+                                  ...prevData,
+                                  rate,
+                                }))
+                              }
+                            />
+                          </div>
+                          <TextArea
+                            rows={4}
+                            className="w-[500px] mt-2"
+                            onChange={(e) =>
+                              setReviewData((prevData) => ({
+                                ...prevData,
+                                reviewContent: e.target.value,
+                              }))
+                            }
+                          />
                         </div>
-                        <Rate
-                          onChange={(rate) =>
-                            setReviewData((prevData) => ({
-                              ...prevData,
-                              rate,
-                            }))
-                          }
+                        <ButtonComponent
+                          size={40}
+                          textbutton={"Gửi"}
+                          onClick={() => handleReview(order?.product)}
+                          styleTextButton={{
+                            color: "#fbc050",
+                            fontSize: "14px",
+                          }}
+                          styleButton={{
+                            height: "36px",
+                            border: "1px solid #fbc050",
+                            borderRadius: "4px",
+                          }}
                         />
                       </div>
-                      <TextArea
-                        rows={4}
-                        className="w-[500px] mt-2"
-                        onChange={(e) =>
-                          setReviewData((prevData) => ({
-                            ...prevData,
-                            reviewContent: e.target.value,
-                          }))
-                        }
-                      />
-                    </div>
-                    <ButtonComponent
-                      size={40}
-                      textbutton={"Gửi"}
-                      onClick={() => handleReview(order?.product)}
-                      styleTextButton={{ color: "#fbc050", fontSize: "14px" }}
-                      styleButton={{
-                        height: "36px",
-                        border: "1px solid #fbc050",
-                        borderRadius: "4px",
-                      }}
-                    />
+                    )}
                   </div>
                 </div>
               ))}

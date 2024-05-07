@@ -85,6 +85,8 @@ const OrderAdmin = () => {
         return <Tag color="red">Đã hủy</Tag>;
       case "completed":
         return <Tag color="green">Đã hoàn thành</Tag>;
+      case "refund":
+        return <Tag color="gray">Trả hàng</Tag>;
       default:
         return null;
     }

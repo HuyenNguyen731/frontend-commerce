@@ -34,6 +34,12 @@ const MyOrderPage = () => {
     return res;
   });
 
+  const mutationUpdate = useMutationHooks((data) => {
+    const { id, status, token } = data;
+    const res = OrderService.updateStatusOrder(id, status, token);
+    return res;
+  });
+
   const handleCancelOrder = (order) => {
     mutationCancel.mutate(
       {
@@ -49,6 +55,21 @@ const MyOrderPage = () => {
         },
         onError: (err) => {
           message.error(err);
+        },
+      }
+    );
+  };
+
+  const handleRefundOrder = (order) => {
+    mutationUpdate.mutate(
+      { id: order._id, status: "refund", token: state?.token },
+      {
+        onSuccess: () => {
+          message.success("Success!");
+          queryClient.invalidateQueries(["orders"]);
+        },
+        onError: (error) => {
+          message.error("Failed: " + error.message);
         },
       }
     );
@@ -75,6 +96,7 @@ const MyOrderPage = () => {
           orders={filteredOrders}
           handleCancelOrder={handleCancelOrder}
           handleDetailsOrder={handleDetailsOrder}
+          handleRefundOrder={handleRefundOrder}
           userId={state.id}
           token={state?.token}
         />
@@ -111,7 +133,7 @@ const MyOrderPage = () => {
               <Tabs.TabPane tab="Đã hủy" key="4">
                 {renderOrderList("cancel")}
               </Tabs.TabPane>
-              <Tabs.TabPane tab="Trả hàng" key="4">
+              <Tabs.TabPane tab="Trả hàng" key="5">
                 {renderOrderList("refund")}
               </Tabs.TabPane>
             </Tabs>
